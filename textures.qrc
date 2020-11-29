@@ -36,5 +36,9 @@
         <file>textures/tiles/tile_86.png</file>
         <file>textures/tiles/tile_205.png</file>
         <file>textures/tiles/tile_179.png</file>
+        <file>textures/enemy/zombie_stand_d.png</file>
+        <file>textures/enemy/zombie_stand_l.png</file>
+        <file>textures/enemy/zombie_stand_r.png</file>
+        <file>textures/enemy/zombie_stand_t.png</file>
     </qresource>
 </RCC>
