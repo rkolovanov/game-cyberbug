@@ -156,7 +156,36 @@ void LevelGenerator::generate(Size2D room_count, int difficult) {
 
 void LevelGenerator::spawnEnemies(std::vector<sharedCreature>& enemies, int difficult) {
     difficult_ = difficult;
-    enemies.push_back(createEnemy<MovementPolicy::Stand, AttackPolicy::Distance>(Position2D(9, 9)));
+
+    Field& field = Field::getInstance();
+    Size2D field_size = field.getSize();
+    Size2D room_count = Size2D((field_size.x - 1) / 12, (field_size.y - 1) / 12);
+
+    for (size_t roomY = 0; roomY < room_count.y; roomY++) {
+        for (size_t roomX = 0; roomX < room_count.x; roomX++) {
+            Position2D enemy_position(roomX * 12 + 1 + rand() % 11, roomY * 12 + 1 + rand() % 11);
+            if (field.getCell(enemy_position).isPassable()) {
+                sharedCreature enemy;
+
+                switch (rand() % 4) {
+                case 0:
+                    enemy = createEnemy<MovementPolicy::Stand, AttackPolicy::Melee>(enemy_position);
+                    break;
+                case 1:
+                    enemy = createEnemy<MovementPolicy::Walk, AttackPolicy::Melee>(enemy_position);
+                    break;
+                case 2:
+                    enemy = createEnemy<MovementPolicy::Stand, AttackPolicy::Distance>(enemy_position);
+                    break;
+                case 3:
+                    enemy = createEnemy<MovementPolicy::Walk, AttackPolicy::Distance>(enemy_position);
+                    break;
+                }
+
+                enemies.push_back(enemy);
+            }
+        }
+    }
 }
 
 
@@ -177,10 +206,10 @@ Position2D LevelGenerator::getEntryPosition() const {
 template<MovementPolicy movement_policy, AttackPolicy attack_policy>
 sharedEnemy<movement_policy, attack_policy> LevelGenerator::createEnemy(const Position2D& position) {
     sharedEnemy<movement_policy, attack_policy> enemy = std::make_shared<Enemy<movement_policy, attack_policy>>(position);
-    enemy->setMaxHealth(100 + difficult_ * 50);
-    enemy->setHealth(100 + difficult_ * 50);
-    enemy->setAttackDamage(1 + difficult_ * 2);
-    enemy->setProtection(0 + difficult_);
+    enemy->setMaxHealth(10 + difficult_ * difficult_ * 5);
+    enemy->setHealth(10 + difficult_ * difficult_ * 5);
+    enemy->setAttackDamage(1 + difficult_ * difficult_ * 2);
+    enemy->setProtection(0 + difficult_ * difficult_);
     enemy->getEventManager().subscribe(logger_);
     return enemy;
 }

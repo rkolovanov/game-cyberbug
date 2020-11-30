@@ -2,7 +2,7 @@
 
 
 sharedObject WeaponFactory::createObject() {
-    return std::make_shared<Weapon>(5);
+    return std::make_shared<Weapon>(1);
 }
 
 

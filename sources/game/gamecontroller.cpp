@@ -9,11 +9,10 @@
 
 GameController::GameController(const sharedLoggingListener& logger): logger_(logger) {
     changeState(std::make_shared<PlayerTurnState>());
-
     player_ = std::make_shared<Player>(Position2D(0, 0));
     player_->setMaxHealth(100);
-    player_->setHealth(73);
-    player_->setAttackDamage(25);
+    player_->setHealth(100);
+    player_->setAttackDamage(2);
     player_->setProtection(0);
     player_->getEventManager().subscribe(logger);
 }
@@ -22,6 +21,7 @@ GameController::GameController(const sharedLoggingListener& logger): logger_(log
 void GameController::createLevel() {
     LevelGenerator levelGenerator(logger_);
     levelGenerator.generate(Size2D(2 + level_, 2 + level_), level_);
+    enemies_.clear();
     levelGenerator.spawnEnemies(enemies_, level_);
     level_complete_ = false;
     player_->setPosition(levelGenerator.getEntryPosition());

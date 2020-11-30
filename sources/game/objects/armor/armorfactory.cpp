@@ -2,7 +2,7 @@
 
 
 sharedObject ArmorFactory::createObject() {
-    return std::make_shared<Armor>(5);
+    return std::make_shared<Armor>(1);
 }
 
 
