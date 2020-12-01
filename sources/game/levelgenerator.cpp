@@ -5,6 +5,10 @@
 #include "sources/game/objects/weapon/weaponfactory.h"
 #include "sources/game/objects/armor/armorfactory.h"
 #include "sources/game/objects/levelpassobject/levelpassobjectfactory.h"
+#include "sources/game/objects/creatures/meleeattackbehavior.h"
+#include "sources/game/objects/creatures/distanceattackbehavior.h"
+#include "sources/game/objects/creatures/standmovementbehavior.h"
+#include "sources/game/objects/creatures/walkmovementbehavior.h"
 
 
 void LevelGenerator::generateRoomCells(Position2D room_position, RoomType type, size_t entry_top_room_x) {
@@ -154,7 +158,7 @@ void LevelGenerator::generate(Size2D room_count, int difficult) {
     placeObject(level_pass_object_position, object);
 }
 
-void LevelGenerator::spawnEnemies(std::vector<sharedCreature>& enemies, int difficult) {
+void LevelGenerator::spawnEnemies(Enemies& enemies, int difficult) {
     difficult_ = difficult;
 
     Field& field = Field::getInstance();
@@ -165,20 +169,26 @@ void LevelGenerator::spawnEnemies(std::vector<sharedCreature>& enemies, int diff
         for (size_t roomX = 0; roomX < room_count.x; roomX++) {
             Position2D enemy_position(roomX * 12 + 1 + rand() % 11, roomY * 12 + 1 + rand() % 11);
             if (field.getCell(enemy_position).isPassable()) {
-                sharedCreature enemy;
+                sharedAbstractEnemy enemy;
 
-                switch (rand() % 4) {
+                switch (rand() % 10) {
                 case 0:
-                    enemy = createEnemy<MovementPolicy::Stand, AttackPolicy::Melee>(enemy_position);
+                    enemy = createEnemy<StandMovementBehavior, MeleeAttackBehavior>(enemy_position);
                     break;
                 case 1:
-                    enemy = createEnemy<MovementPolicy::Walk, AttackPolicy::Melee>(enemy_position);
-                    break;
                 case 2:
-                    enemy = createEnemy<MovementPolicy::Stand, AttackPolicy::Distance>(enemy_position);
-                    break;
                 case 3:
-                    enemy = createEnemy<MovementPolicy::Walk, AttackPolicy::Distance>(enemy_position);
+                case 4:
+                    enemy = createEnemy<WalkMovementBehavior, MeleeAttackBehavior>(enemy_position);
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    enemy = createEnemy<StandMovementBehavior, DistanceAttackBehavior>(enemy_position);
+                    break;
+                case 8:
+                case 9:
+                    enemy = createEnemy<WalkMovementBehavior, DistanceAttackBehavior>(enemy_position);
                     break;
                 }
 
@@ -203,9 +213,9 @@ Position2D LevelGenerator::getEntryPosition() const {
 }
 
 
-template<MovementPolicy movement_policy, AttackPolicy attack_policy>
-sharedEnemy<movement_policy, attack_policy> LevelGenerator::createEnemy(const Position2D& position) {
-    sharedEnemy<movement_policy, attack_policy> enemy = std::make_shared<Enemy<movement_policy, attack_policy>>(position);
+template<typename movement_behavior, typename attack_behavior>
+sharedAbstractEnemy LevelGenerator::createEnemy(const Position2D& position) {
+    sharedAbstractEnemy enemy = std::make_shared<Enemy<movement_behavior, attack_behavior>>(position);
     enemy->setMaxHealth(10 + difficult_ * difficult_ * 5);
     enemy->setHealth(10 + difficult_ * difficult_ * 5);
     enemy->setAttackDamage(1 + difficult_ * difficult_ * 2);

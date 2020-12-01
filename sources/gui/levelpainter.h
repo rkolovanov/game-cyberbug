@@ -4,11 +4,11 @@
 #include <QPixmap>
 
 #include "sources/game/objects/creatures/player/player.h"
+#include "sources/game/objects/creatures/enemies/abstractenemy.h"
 
 namespace gui {
 
 using sharedQPixmap = std::shared_ptr<QPixmap>;
-using Enemies = std::vector<sharedCreature>;
 
 
 class LevelPainter final {

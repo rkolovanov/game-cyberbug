@@ -25,7 +25,11 @@ SOURCES += \
     sources/game/objects/armor/armor.cpp \
     sources/game/objects/armor/armorfactory.cpp \
     sources/game/objects/creatures/creature.cpp \
+    sources/game/objects/creatures/distanceattackbehavior.cpp \
+    sources/game/objects/creatures/meleeattackbehavior.cpp \
     sources/game/objects/creatures/player/player.cpp \
+    sources/game/objects/creatures/standmovementbehavior.cpp \
+    sources/game/objects/creatures/walkmovementbehavior.cpp \
     sources/game/objects/levelpassobject/levelpassobject.cpp \
     sources/game/objects/levelpassobject/levelpassobjectfactory.cpp \
     sources/game/objects/medicines/medicines.cpp \
@@ -58,8 +62,13 @@ HEADERS += \
     sources/common/direction.h \
     sources/game/enemiesturnstate.h \
     sources/game/gamestate.h \
-    sources/game/objects/creatures/attackpolicy.h \
-    sources/game/objects/creatures/movementpolicy.h \
+    sources/game/objects/creatures/attackbehavior.h \
+    sources/game/objects/creatures/distanceattackbehavior.h \
+    sources/game/objects/creatures/enemies/abstractenemy.h \
+    sources/game/objects/creatures/meleeattackbehavior.h \
+    sources/game/objects/creatures/movementbehavior.h \
+    sources/game/objects/creatures/standmovementbehavior.h \
+    sources/game/objects/creatures/walkmovementbehavior.h \
     sources/game/playerturnstate.h \
     sources/game/roomtype.h \
     sources/gui/texture.h \

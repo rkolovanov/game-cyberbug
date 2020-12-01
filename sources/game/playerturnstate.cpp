@@ -53,6 +53,7 @@ void PlayerTurnState::executePlayerAttack(GameController& controller) {
     *player <= attack_enemy;
 
     if (attack_enemy != nullptr && attack_enemy->getHealth() <= 0) {
+        player->setMaxHealth(player->getMaxHealth() + 5);
         controller.getEnemies().erase(controller.getEnemies().begin() + enemy_index);
     }
 

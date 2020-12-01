@@ -26,6 +26,7 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
     scene_ = std::make_shared<QGraphicsScene>(this);
     levelLabel_ = std::make_shared<QLabel>(this);
     healthLabel_ = std::make_shared<QLabel>(this);
+    maxHealthLabel_ = std::make_shared<QLabel>(this);
     attackLabel_ = std::make_shared<QLabel>(this);
     armorLabel_ = std::make_shared<QLabel>(this);
 
@@ -44,12 +45,21 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
 
     levelLabel_->move(25, 25);
     healthLabel_->move(25, 45);
-    attackLabel_->move(25, 65);
-    armorLabel_->move(25, 85);
-    levelLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: white; }");
-    healthLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: white; }");
-    attackLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: white; }");
-    armorLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: white; }");
+    maxHealthLabel_->move(25, 65);
+    attackLabel_->move(25, 85);
+    armorLabel_->move(25, 105);
+
+    levelLabel_->resize(200, 20);
+    healthLabel_->resize(200, 20);
+    maxHealthLabel_->resize(200, 20);
+    attackLabel_->resize(200, 20);
+    armorLabel_->resize(200, 20);
+
+    levelLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 14px; color: white; }");
+    healthLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 14px; color: white; }");
+    maxHealthLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 14px; color: white; }");
+    attackLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 14px; color: white; }");
+    armorLabel_->setStyleSheet("QLabel { font-weight: bold; font-size: 14px; color: white; }");
 
     if (!screenPinning_) {
         view_->setDragMode(QGraphicsView::ScrollHandDrag);
@@ -67,6 +77,7 @@ void gui::MainWindow::updateScene() {
 
     levelLabel_->setText("Floor: " + QString::number(controller_->getLevelNumber()));
     healthLabel_->setText("Health: " + QString::number(player->getHealth()));
+    maxHealthLabel_->setText("Max Health: " + QString::number(player->getMaxHealth()));
     attackLabel_->setText("Attack: " + QString::number(player->getAttackDamage()));
     armorLabel_->setText("Armor: " + QString::number(player->getProtection()));
 

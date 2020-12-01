@@ -1,5 +1,4 @@
 #include "sources/game/objects/creatures/creature.h"
-#include <iostream>
 
 
 void Creature::operator<=(sharedCreature& creature) {

@@ -4,14 +4,13 @@
 #include <QPixmap>
 
 #include "sources/game/objects/creatures/player/player.h"
-#include "sources/game/objects/creatures/enemies/enemy.h"
+#include "sources/game/objects/creatures/enemies/abstractenemy.h"
 #include "sources/game/field.h"
 #include "sources/game/gamestate.h"
 #include "sources/logging/logginglistener.h"
 
 using sharedGameController = std::shared_ptr<class GameController>;
 using sharedQPixmap = std::shared_ptr<QPixmap>;
-using Enemies = std::vector<sharedCreature>;
 using sharedGameState = std::shared_ptr<class GameState>;
 
 

@@ -23,12 +23,11 @@ public:
     LevelGenerator(const sharedLoggingListener& logger);
 
     void generate(Size2D room_count, int difficult = 0);
-    void spawnEnemies(std::vector<sharedCreature>& enemies, int difficult = 0);
+    void spawnEnemies(Enemies& enemies, int difficult = 0);
     void placeObject(Position2D position, const sharedObject& object);
     Position2D getEntryPosition() const;
-
-    template<MovementPolicy movement_policy, AttackPolicy attack_policy>
-    sharedEnemy<movement_policy, attack_policy> createEnemy(const Position2D& position);
+    template<typename movement_behavior, typename attack_behavior>
+    sharedAbstractEnemy createEnemy(const Position2D& position);
 }; // class LevelGenerator
 
 

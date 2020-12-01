@@ -39,6 +39,7 @@ private:
     sharedQPixmap fieldPixelMap_;
     sharedQLabel levelLabel_;
     sharedQLabel healthLabel_;
+    sharedQLabel maxHealthLabel_;
     sharedQLabel attackLabel_;
     sharedQLabel armorLabel_;
     QMap<CommandType, sharedCommand> commands_;
