@@ -16,6 +16,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& stream, const Medicines& medicines);
 
+    int getHealthRecovery() const;
     sharedObject getCopy() const override;
     void executeInteraction(Creature& creature) override;
     const std::type_info& getClass() const override;

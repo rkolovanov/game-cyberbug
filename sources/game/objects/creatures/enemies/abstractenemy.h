@@ -6,6 +6,7 @@
 
 #include "sources/game/objects/creatures/creature.h"
 #include "sources/game/interactions/interactionnone.h"
+#include "sources/game/objects/creatures/enemies/enemymemento.h"
 
 using sharedAbstractEnemy = std::shared_ptr<class AbstractEnemy>;
 using Enemies = std::vector<sharedAbstractEnemy>;
@@ -18,6 +19,8 @@ public:
     virtual Position2D getMovementPosition(const Position2D& target_position) = 0;
     virtual void tryAttack(sharedCreature& target) = 0;
     const std::type_info& getClass() const override = 0;
+    virtual EnemyMemento save() const = 0;
+    virtual void restore(const EnemyMemento& snapshot) = 0;
 }; // class AbstractEnem
 
 

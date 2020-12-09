@@ -4,8 +4,10 @@
 #include <memory>
 
 #include "sources/game/objects/creatures/enemies/abstractenemy.h"
-#include "sources/game/objects/creatures/attackbehavior.h"
-#include "sources/game/objects/creatures/movementbehavior.h"
+#include "sources/game/objects/creatures/meleeattackbehavior.h"
+#include "sources/game/objects/creatures/distanceattackbehavior.h"
+#include "sources/game/objects/creatures/standmovementbehavior.h"
+#include "sources/game/objects/creatures/walkmovementbehavior.h"
 #include "sources/game/interactions/interactionnone.h"
 
 
@@ -25,6 +27,8 @@ public:
     Position2D getMovementPosition(const Position2D& target_position) override;
     void tryAttack(sharedCreature& target) override;
     const std::type_info& getClass() const override;
+    EnemyMemento save() const;
+    void restore(const EnemyMemento& snapshot);
 }; // class Enemy
 
 
@@ -86,6 +90,24 @@ void Enemy<movement_behavior, attack_behavior>::tryAttack(sharedCreature& target
 template<typename movement_behavior, typename attack_behavior>
 const std::type_info& Enemy<movement_behavior, attack_behavior>::getClass() const {
     return typeid(Enemy);
+}
+
+
+template<typename movement_behavior, typename attack_behavior>
+EnemyMemento Enemy<movement_behavior, attack_behavior>::save() const {
+    return EnemyMemento(health_, max_health_, attack_damage_, protection_, position_, rotation_,
+                        typeid(movement_behavior).hash_code(), typeid(attack_behavior).hash_code());
+}
+
+
+template<typename movement_behavior, typename attack_behavior>
+void Enemy<movement_behavior, attack_behavior>::restore(const EnemyMemento& snapshot) {
+    setHealth(snapshot.getHealth());
+    setMaxHealth(snapshot.getMaxHealth());
+    setAttackDamage(snapshot.getAttackDamage());
+    setProtection(snapshot.getProtection());
+    setPosition(snapshot.getPosition());
+    setRotation(snapshot.getRotation());
 }
 
 

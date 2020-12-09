@@ -23,9 +23,9 @@ Field::Field(const Size2D& size): size_(size) {
 
 Field::Field(const Field& other) {
     size_ = other.size_;
-    cells_ = nullptr;
+    cells_.reset();
 
-    if (other.cells_ != nullptr) {
+    if (other.cells_ == nullptr) {
         return;
     }
 
@@ -154,6 +154,33 @@ const Field::ConstFieldIterator Field::begin() const {
 
 const Field::ConstFieldIterator Field::end() const {
     return ConstFieldIterator(Position2D(0, getSize().y));
+}
+
+
+FieldMemento Field::save() const {
+    return FieldMemento(cells_, size_);
+}
+
+
+void Field::restore(FieldMemento& snapshot) {
+    sharedCellTable cells = snapshot.getCellTable();
+    size_ = snapshot.getSize();
+    cells_.reset();
+
+    if (cells == nullptr) {
+        return;
+    }
+
+    cells_ = std::make_shared<CellTable>(size_.y);
+
+    for (size_t y = 0; y < size_.y; y++) {
+        CellRow& row = cells_->at(y);
+        row.resize(size_.x);
+
+        for (size_t x = 0; x < size_.x; x++) {
+            row.at(x) = cells->at(y).at(x);
+        }
+    }
 }
 
 

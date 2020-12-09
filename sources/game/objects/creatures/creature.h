@@ -15,7 +15,7 @@ using sharedConstCreature = std::shared_ptr<const class Creature>;
 
 
 class Creature {
-private:
+protected:
     int health_;
     int max_health_;
     int attack_damage_;
@@ -23,8 +23,6 @@ private:
     Position2D position_;
     Rotation rotation_ = Direction::Bottom;
     EventManager event_manager_;
-
-protected:
     sharedInteractionStrategy object_interaction_strategy_;
 
 public:

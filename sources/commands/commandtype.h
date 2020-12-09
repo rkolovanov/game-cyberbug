@@ -10,7 +10,9 @@ enum class CommandType {
     MovePlayerRight,
     InteractPlayer,
     AttackPlayer,
-    StartLevel
+    StartLevel,
+    SaveGame,
+    LoadGame
 };
 
 

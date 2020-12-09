@@ -9,6 +9,7 @@ using sharedInteractionNone = std::shared_ptr<class InteractionNone>;
 class InteractionNone final: public InteractionStrategy {
 public:
     void interact(Creature& creature, sharedObject& target) override;
+    InteractionType getType() const override;
 }; // class InteractionNone
 
 

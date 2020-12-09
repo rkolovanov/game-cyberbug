@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "sources/game/cell.h"
+#include "sources/game/fieldmemento.h"
 
 using uniqueField = std::unique_ptr<class Field>;
 using CellRow = std::vector<Cell>;
@@ -43,6 +44,8 @@ public:
     FieldIterator end();
     const ConstFieldIterator begin() const;
     const ConstFieldIterator end() const;
+    FieldMemento save() const;
+    void restore(FieldMemento& snapshot);
 }; // class Field
 
 

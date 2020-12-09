@@ -11,3 +11,8 @@ void InteractionUse::interact(Creature& creature, sharedObject& target) {
         }
     }
 }
+
+
+InteractionType InteractionUse::getType() const {
+    return InteractionType::Use;
+}

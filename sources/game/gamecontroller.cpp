@@ -1,10 +1,13 @@
 #include <QMap>
 
+#include "sources/common/exception.h"
 #include "sources/game/gamecontroller.h"
 #include "sources/game/levelgenerator.h"
 #include "sources/game/objects/creatures/enemies/enemy.h"
 #include "sources/gui/levelpainter.h"
 #include "sources/game/playerturnstate.h"
+#include "sources/game/gamesaver.h"
+#include "sources/game/gameloader.h"
 
 
 GameController::GameController(const sharedLoggingListener& logger): logger_(logger) {
@@ -124,4 +127,28 @@ size_t GameController::getLevelNumber() const {
 
 GameController::~GameController() {
     logger_->update("Quitting the game...");
+}
+
+
+void GameController::saveGame(const std::string& path) {
+    GameSaver saver(path, logger_);
+    try {
+        saver.save(player_, enemies_);
+    } catch (Exception& error) {
+        logger_->update(error.getMessage());
+    } catch (...) {
+        logger_->update("Unknown error!");
+    }
+}
+
+
+void GameController::loadGame(const std::string& path) {
+    GameLoader loader(path, logger_);
+    try {
+        loader.load(player_, enemies_);
+    } catch (Exception& error) {
+        logger_->update(error.getMessage());
+    } catch (...) {
+        logger_->update("Unknown error!");
+    }
 }

@@ -35,6 +35,11 @@ Weapon::~Weapon() {
 }
 
 
+int Weapon::getDamage() const {
+    return damage_;
+}
+
+
 std::ostream& operator<<(std::ostream& stream, const Weapon& weapon) {
     stream << "Object of class 'Weapon': Damage(" << weapon.damage_ << ")";
     return stream;

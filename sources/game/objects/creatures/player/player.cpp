@@ -54,6 +54,29 @@ void Player::setPassFounded(bool value) {
 }
 
 
+PlayerMemento Player::save() const {
+    return PlayerMemento(health_, max_health_, attack_damage_, protection_, position_, rotation_,
+                         object_interaction_strategy_->getType(), pass_founded_);
+}
+
+
+void Player::restore(const PlayerMemento& snapshot) {
+    setHealth(snapshot.getHealth());
+    setMaxHealth(snapshot.getMaxHealth());
+    setAttackDamage(snapshot.getAttackDamage());
+    setProtection(snapshot.getProtection());
+    setPassFounded(snapshot.getPassFounded());
+    setPosition(snapshot.getPosition());
+    setRotation(snapshot.getRotation());
+
+    if (snapshot.getInteractionType() == InteractionType::None) {
+        object_interaction_strategy_ = std::make_shared<InteractionNone>();
+    } else if (snapshot.getInteractionType() == InteractionType::Use) {
+        object_interaction_strategy_ = std::make_shared<InteractionUse>();
+    }
+}
+
+
 void Player::setRotation(Rotation rotation) {
     if (rotation != getRotation()) {
         Creature::setRotation(rotation);

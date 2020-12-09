@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "sources/game/objects/creatures/creature.h"
+#include "sources/game/objects/creatures/player/playermemento.h"
 
 using sharedPlayer = std::shared_ptr<class Player>;
 using sharedConstPlayer = std::shared_ptr<const class Player>;
@@ -30,6 +31,8 @@ public:
     virtual void setProtection(int protection) override;
     bool getPassFounded() const;
     void setPassFounded(bool value);
+    PlayerMemento save() const;
+    void restore(const PlayerMemento& snapshot);
 }; // class Player
 
 

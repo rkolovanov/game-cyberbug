@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QToolBar>
 #include <QImage>
 #include <QLabel>
 #include <QMap>
@@ -27,6 +28,7 @@ using sharedQGraphicsView = std::shared_ptr<QGraphicsView>;
 using sharedQGraphicsScene = std::shared_ptr<QGraphicsScene>;
 using sharedQPixmap = std::shared_ptr<QPixmap>;
 using sharedQLabel = std::shared_ptr<QLabel>;
+using sharedQToolBar = std::shared_ptr<QToolBar>;
 
 
 class MainWindow final: public QMainWindow {
@@ -51,9 +53,13 @@ private:
 public:
     MainWindow(const sharedGameController& controller, const sharedLoggingListener& logger, QWidget* parent = nullptr);
 
-    void updateScene();
+    void updateScene(bool move_view = false);
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
+
+private slots:
+    void on_action_save_triggered();
+    void on_action_load_triggered();
 }; // class MainWindow
 
 

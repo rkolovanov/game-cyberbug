@@ -35,6 +35,11 @@ Medicines::~Medicines() {
 }
 
 
+int Medicines::getHealthRecovery() const {
+    return health_recovery_;
+}
+
+
 std::ostream& operator<<(std::ostream& stream, const Medicines& medicines) {
     stream << "Object of class 'Medicines': HealthRecovery(" << medicines.health_recovery_ << ")";
     return stream;

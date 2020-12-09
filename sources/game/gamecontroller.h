@@ -27,6 +27,8 @@ public:
     GameController(const sharedLoggingListener& logger);
     ~GameController();
 
+    void saveGame(const std::string& path);
+    void loadGame(const std::string& path);
     void startTurn();
     void endTurn();
     void createLevel();

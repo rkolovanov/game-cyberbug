@@ -6,6 +6,8 @@ CONFIG += c++17
 
 SOURCES += \
     sources/commands/attackplayercommand.cpp \
+    sources/commands/loadgamecommand.cpp \
+    sources/commands/savegamecommand.cpp \
     sources/common/eventmanager.cpp \
     sources/common/exception.cpp \
     sources/common/point2d.cpp \
@@ -18,7 +20,10 @@ SOURCES += \
     sources/commands/startlevelcommand.cpp \
     sources/game/enemiesturnstate.cpp \
     sources/game/field.cpp \
+    sources/game/fieldmemento.cpp \
     sources/game/gamecontroller.cpp \
+    sources/game/gameloader.cpp \
+    sources/game/gamesaver.cpp \
     sources/game/interactions/interactionnone.cpp \
     sources/game/interactions/interactionuse.cpp \
     sources/game/levelgenerator.cpp \
@@ -26,8 +31,10 @@ SOURCES += \
     sources/game/objects/armor/armorfactory.cpp \
     sources/game/objects/creatures/creature.cpp \
     sources/game/objects/creatures/distanceattackbehavior.cpp \
+    sources/game/objects/creatures/enemies/enemymemento.cpp \
     sources/game/objects/creatures/meleeattackbehavior.cpp \
     sources/game/objects/creatures/player/player.cpp \
+    sources/game/objects/creatures/player/playermemento.cpp \
     sources/game/objects/creatures/standmovementbehavior.cpp \
     sources/game/objects/creatures/walkmovementbehavior.cpp \
     sources/game/objects/levelpassobject/levelpassobject.cpp \
@@ -51,9 +58,12 @@ SOURCES += \
 
 HEADERS += \
     sources/commands/attackplayercommand.h \
+    sources/commands/loadgamecommand.h \
+    sources/commands/savegamecommand.h \
     sources/common/eventlistener.h \
     sources/common/eventmanager.h \
     sources/common/exception.h \
+    sources/common/imemento.h \
     sources/common/point2d.h \
     sources/common/settings.h \
     sources/common/time.h \
@@ -61,12 +71,18 @@ HEADERS += \
     sources/commands/commandtype.h \
     sources/common/direction.h \
     sources/game/enemiesturnstate.h \
+    sources/game/fieldmemento.h \
+    sources/game/gameloader.h \
+    sources/game/gamesaver.h \
     sources/game/gamestate.h \
+    sources/game/interactions/interactiontype.h \
     sources/game/objects/creatures/attackbehavior.h \
     sources/game/objects/creatures/distanceattackbehavior.h \
     sources/game/objects/creatures/enemies/abstractenemy.h \
+    sources/game/objects/creatures/enemies/enemymemento.h \
     sources/game/objects/creatures/meleeattackbehavior.h \
     sources/game/objects/creatures/movementbehavior.h \
+    sources/game/objects/creatures/player/playermemento.h \
     sources/game/objects/creatures/standmovementbehavior.h \
     sources/game/objects/creatures/walkmovementbehavior.h \
     sources/game/playerturnstate.h \

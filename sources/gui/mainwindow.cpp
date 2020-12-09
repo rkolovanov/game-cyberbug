@@ -2,6 +2,7 @@
 #include <QString>
 #include <iostream>
 #include <QKeyEvent>
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -17,6 +18,8 @@
 #include "sources/commands/interactplayercommand.h"
 #include "sources/commands/startlevelcommand.h"
 #include "sources/commands/attackplayercommand.h"
+#include "sources/commands/savegamecommand.h"
+#include "sources/commands/loadgamecommand.h"
 
 
 gui::MainWindow::MainWindow(const sharedGameController& controller, const sharedLoggingListener& logger, QWidget* parent): QMainWindow(parent), ui_(new Ui::MainWindow), logger_(logger), controller_(controller) {
@@ -37,6 +40,8 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
     commands_[CommandType::InteractPlayer] = std::make_shared<InteractPlayerCommand>(controller);
     commands_[CommandType::AttackPlayer] = std::make_shared<AttackPlayerCommand>(controller);
     commands_[CommandType::StartLevel] = std::make_shared<StartLevelCommand>(controller);
+    commands_[CommandType::SaveGame] = std::make_shared<SaveGameCommand>(controller);
+    commands_[CommandType::LoadGame] = std::make_shared<LoadGameCommand>(controller);
 
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
@@ -72,7 +77,7 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
 }
 
 
-void gui::MainWindow::updateScene() {
+void gui::MainWindow::updateScene(bool move_view) {
     sharedConstPlayer player = controller_->getPlayer();
 
     levelLabel_->setText("Floor: " + QString::number(controller_->getLevelNumber()));
@@ -85,8 +90,9 @@ void gui::MainWindow::updateScene() {
 
     scene_->clear();
     scene_->addPixmap(*fieldPixelMap_);
+    view_->setSceneRect(fieldPixelMap_->rect());
 
-    if (screenPinning_) {
+    if (screenPinning_ || move_view) {
         view_->centerOn(player->getPosition().x * 64 + 32, player->getPosition().y * 64 + 32);
     }
 }
@@ -148,4 +154,21 @@ void gui::MainWindow::keyReleaseEvent(QKeyEvent* event) {
     if (!event->isAutoRepeat()) {
         isPressed_ = false;
     }
+}
+
+
+void gui::MainWindow::on_action_save_triggered() {
+    QString filepath = QFileDialog::getSaveFileName(this, "Choose file to save");
+    SaveGameCommand& command = dynamic_cast<SaveGameCommand&>(*commands_[CommandType::SaveGame]);
+    command.setPath(filepath.toStdString());
+    command.execute();
+}
+
+
+void gui::MainWindow::on_action_load_triggered() {
+    QString filepath = QFileDialog::getOpenFileName(this, "Choose file to load");
+    LoadGameCommand& command = dynamic_cast<LoadGameCommand&>(*commands_[CommandType::LoadGame]);
+    command.setPath(filepath.toStdString());
+    command.execute();
+    updateScene(true);
 }

@@ -35,6 +35,11 @@ Armor::~Armor() {
 }
 
 
+int Armor::getProtection() const {
+    return protection_value_;
+}
+
+
 std::ostream& operator<<(std::ostream& stream, const Armor& armor) {
     stream << "Object of class 'Armor': ProtectionValue(" << armor.protection_value_ << ")";
     return stream;
