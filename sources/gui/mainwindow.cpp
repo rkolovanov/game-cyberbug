@@ -20,6 +20,7 @@
 #include "sources/commands/attackplayercommand.h"
 #include "sources/commands/savegamecommand.h"
 #include "sources/commands/loadgamecommand.h"
+#include "sources/commands/newgamecommand.h"
 
 
 gui::MainWindow::MainWindow(const sharedGameController& controller, const sharedLoggingListener& logger, QWidget* parent): QMainWindow(parent), ui_(new Ui::MainWindow), logger_(logger), controller_(controller) {
@@ -42,6 +43,7 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
     commands_[CommandType::StartLevel] = std::make_shared<StartLevelCommand>(controller);
     commands_[CommandType::SaveGame] = std::make_shared<SaveGameCommand>(controller);
     commands_[CommandType::LoadGame] = std::make_shared<LoadGameCommand>(controller);
+    commands_[CommandType::NewGame] = std::make_shared<NewGameCommand>(controller);
 
     view_->setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
     view_->setVerticalScrollBarPolicy(Qt::ScrollBarPolicy::ScrollBarAlwaysOff);
@@ -70,9 +72,9 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
         view_->setDragMode(QGraphicsView::ScrollHandDrag);
     }
 
-    commands_[CommandType::StartLevel]->execute();
-
+    commands_[CommandType::NewGame]->execute();
     updateScene();
+
     setCentralWidget(view_.get());
 }
 
@@ -115,15 +117,6 @@ void gui::MainWindow::keyPressEvent(QKeyEvent* event) {
             command = CommandType::InteractPlayer;
         } else if (event->key() == Qt::Key_F) {
             command = CommandType::AttackPlayer;
-        } else if (event->key() == Qt::Key_Q) {
-            QMessageBox::StandardButton button = QMessageBox::question(this, "Quit", "Are you sure you want to quit the game?");
-
-            if (button == QMessageBox::StandardButton::Yes) {
-                logger_->update("Quitting the game...");
-                QApplication::exit();
-            }
-
-            isPressed_ = false;
         }
 
         if (command != CommandType::None) {
@@ -131,12 +124,9 @@ void gui::MainWindow::keyPressEvent(QKeyEvent* event) {
             updateScene();
         }
 
-        if (controller_->getPlayer()->getHealth() <= 0) {
+        if (controller_->isPlayerDead()) {
             logger_->update("Player has died. Game over.");
             QMessageBox::information(this, "Game over", "You died!");
-
-            logger_->update("Quitting the game...");
-            QApplication::exit();
         } else if (controller_->isLevelComplete()) {
             logger_->update("Player has reached the end of the level.");
             QMessageBox::information(this, "Level complete", "Great job, level passed!");
@@ -157,6 +147,19 @@ void gui::MainWindow::keyReleaseEvent(QKeyEvent* event) {
 }
 
 
+void gui::MainWindow::quit() {
+    logger_->update("Quitting the game...");
+    QApplication::exit();
+}
+
+
+void gui::MainWindow::on_action_new_triggered() {
+    logger_->update("Strating the game...");
+    commands_[CommandType::NewGame]->execute();
+    updateScene();
+}
+
+
 void gui::MainWindow::on_action_save_triggered() {
     QString filepath = QFileDialog::getSaveFileName(this, "Choose file to save");
     SaveGameCommand& command = dynamic_cast<SaveGameCommand&>(*commands_[CommandType::SaveGame]);
@@ -171,4 +174,13 @@ void gui::MainWindow::on_action_load_triggered() {
     command.setPath(filepath.toStdString());
     command.execute();
     updateScene(true);
+}
+
+
+void gui::MainWindow::on_action_exit_triggered() {
+    QMessageBox::StandardButton button = QMessageBox::question(this, "Quit", "Are you sure you want to quit the game?");
+
+    if (button == QMessageBox::StandardButton::Yes) {
+        quit();
+    }
 }

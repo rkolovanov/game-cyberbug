@@ -7,6 +7,7 @@ CONFIG += c++17
 SOURCES += \
     sources/commands/attackplayercommand.cpp \
     sources/commands/loadgamecommand.cpp \
+    sources/commands/newgamecommand.cpp \
     sources/commands/savegamecommand.cpp \
     sources/common/eventmanager.cpp \
     sources/common/exception.cpp \
@@ -59,6 +60,7 @@ SOURCES += \
 HEADERS += \
     sources/commands/attackplayercommand.h \
     sources/commands/loadgamecommand.h \
+    sources/commands/newgamecommand.h \
     sources/commands/savegamecommand.h \
     sources/common/eventlistener.h \
     sources/common/eventmanager.h \

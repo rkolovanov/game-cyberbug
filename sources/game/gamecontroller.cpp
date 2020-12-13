@@ -10,14 +10,19 @@
 #include "sources/game/gameloader.h"
 
 
-GameController::GameController(const sharedLoggingListener& logger): logger_(logger) {
+GameController::GameController(const sharedLoggingListener& logger): logger_(logger) {}
+
+
+void GameController::newGame() {
     changeState(std::make_shared<PlayerTurnState>());
     player_ = std::make_shared<Player>(Position2D(0, 0));
     player_->setMaxHealth(100);
     player_->setHealth(100);
     player_->setAttackDamage(2);
     player_->setProtection(0);
-    player_->getEventManager().subscribe(logger);
+    player_->getEventManager().subscribe(logger_);
+    player_dead_ = false;
+    createLevel();
 }
 
 
@@ -38,35 +43,35 @@ void GameController::changeState(const sharedGameState& state) {
 
 
 void GameController::startTurn() {
-    if (state_ != nullptr) {
+    if (state_ != nullptr && !isPlayerDead()) {
         state_->startTurn(*this);
     }
 }
 
 
 void GameController::endTurn() {
-    if (state_ != nullptr) {
+    if (state_ != nullptr && !isPlayerDead()) {
         state_->endTurn(*this);
     }
 }
 
 
 void GameController::movePlayer(Direction direction) {
-    if (state_ != nullptr) {
+    if (state_ != nullptr && !isPlayerDead()) {
         state_->movePlayer(*this, direction);
     }
 }
 
 
 void GameController::executePlayerInteraction() {
-    if (state_ != nullptr) {
+    if (state_ != nullptr && !isPlayerDead()) {
         state_->executePlayerInteraction(*this);
     }
 }
 
 
 void GameController::executePlayerAttack() {
-    if (state_ != nullptr) {
+    if (state_ != nullptr && !isPlayerDead()) {
         state_->executePlayerAttack(*this);
     }
 }
@@ -82,6 +87,11 @@ void GameController::checkLevelFinish() {
 
 bool GameController::isLevelComplete() {
     return level_complete_;
+}
+
+
+void GameController::setLevelNumber(size_t level) {
+    level_ = level;
 }
 
 
@@ -120,6 +130,16 @@ Enemies& GameController::getEnemies() {
 }
 
 
+bool GameController::isPlayerDead() const {
+    return player_dead_;
+}
+
+
+void GameController::setPlayerDead(bool value) {
+    player_dead_ = value;
+}
+
+
 size_t GameController::getLevelNumber() const {
     return level_;
 }
@@ -146,6 +166,7 @@ void GameController::loadGame(const std::string& path) {
     GameLoader loader(path, logger_);
     try {
         loader.load(player_, enemies_);
+        player_dead_ = player_->getHealth() <= 0;
     } catch (Exception& error) {
         logger_->update(error.getMessage());
     } catch (...) {

@@ -22,11 +22,13 @@ private:
     sharedGameState state_;
     size_t level_ = 0;
     bool level_complete_ = false;
+    bool player_dead_ = false;
 
 public:
     GameController(const sharedLoggingListener& logger);
     ~GameController();
 
+    void newGame();
     void saveGame(const std::string& path);
     void loadGame(const std::string& path);
     void startTurn();
@@ -38,12 +40,15 @@ public:
     void changeState(const sharedGameState& state);
     void checkLevelFinish();
     bool isLevelComplete();
+    void setLevelNumber(size_t level);
     size_t getLevelNumber() const;
     bool isPlayerReachedExit() const;
     bool isPassablePosition(const Position2D& position) const;
     void getLevelPixmap(sharedQPixmap& level_pixmap) const;
     sharedPlayer getPlayer();
     Enemies& getEnemies();
+    bool isPlayerDead() const;
+    void setPlayerDead(bool value);
 }; // class GameController
 
 

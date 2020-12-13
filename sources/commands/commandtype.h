@@ -12,7 +12,8 @@ enum class CommandType {
     AttackPlayer,
     StartLevel,
     SaveGame,
-    LoadGame
+    LoadGame,
+    NewGame
 };
 
 

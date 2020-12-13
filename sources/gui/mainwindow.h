@@ -56,10 +56,13 @@ public:
     void updateScene(bool move_view = false);
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
+    void quit();
 
 private slots:
+    void on_action_new_triggered();
     void on_action_save_triggered();
     void on_action_load_triggered();
+    void on_action_exit_triggered();
 }; // class MainWindow
 
 

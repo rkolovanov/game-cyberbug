@@ -28,8 +28,10 @@ void EnemiesTurnState::startTurn(GameController& controller) {
 
 
 void EnemiesTurnState::endTurn(GameController& controller) {
+    if (controller.getPlayer()->getHealth() <= 0) {
+        controller.setPlayerDead(true);
+    }
     controller.changeState(std::make_shared<PlayerTurnState>());
-    controller.startTurn();
 }
 
 
