@@ -3,6 +3,8 @@
 
 #include "sources/game/gamestate.h"
 
+namespace game {
+
 using sharedEnemiesTurnState = std::shared_ptr<class EnemiesTurnState>;
 
 
@@ -15,5 +17,7 @@ public:
     virtual void executePlayerAttack(GameController& controller) override;
 }; // class EnemiesTurnState
 
+
+};
 
 #endif // SOURCES_GAME_ENEMIES_TURN_STATE_H

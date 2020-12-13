@@ -5,13 +5,15 @@
 #include "sources/game/objects/weapon/weaponfactory.h"
 #include "sources/game/objects/armor/armorfactory.h"
 #include "sources/game/objects/levelpassobject/levelpassobjectfactory.h"
-#include "sources/game/objects/creatures/meleeattackbehavior.h"
-#include "sources/game/objects/creatures/distanceattackbehavior.h"
-#include "sources/game/objects/creatures/standmovementbehavior.h"
-#include "sources/game/objects/creatures/walkmovementbehavior.h"
+#include "sources/game/creatures/meleeattackbehavior.h"
+#include "sources/game/creatures/distanceattackbehavior.h"
+#include "sources/game/creatures/standmovementbehavior.h"
+#include "sources/game/creatures/walkmovementbehavior.h"
+
+namespace game {
 
 
-void LevelGenerator::generateRoomCells(Position2D room_position, RoomType type, size_t entry_top_room_x) {
+void game::LevelGenerator::generateRoomCells(Position2D room_position, RoomType type, size_t entry_top_room_x) {
     Field& field = Field::getInstance();
 
     if (Field::isCreated()) {
@@ -71,18 +73,18 @@ void LevelGenerator::generateRoomCells(Position2D room_position, RoomType type, 
 }
 
 
-void LevelGenerator::generateRoomObjects(Position2D room_position, RoomType type) {
-    sharedObjectFactory factory;
+void game::LevelGenerator::generateRoomObjects(Position2D room_position, RoomType type) {
+    game::sharedObjectFactory factory;
 
     switch(rand() % 3) {
     case 0:
-        factory = sharedObjectFactory(new MedicinesFactory);
+        factory = std::make_shared<game::MedicinesFactory>();
         break;
     case 1:
-        factory = sharedObjectFactory(new ArmorFactory);
+        factory = std::make_shared<game::ArmorFactory>();
         break;
     case 2:
-        factory = sharedObjectFactory(new WeaponFactory);
+        factory = std::make_shared<game::WeaponFactory>();
         break;
     }
 
@@ -104,11 +106,11 @@ void LevelGenerator::generateRoomObjects(Position2D room_position, RoomType type
 }
 
 
-LevelGenerator::LevelGenerator(const sharedLoggingListener& logger)
+game::LevelGenerator::LevelGenerator(const logging::sharedLoggingListener& logger)
     : logger_(logger), difficult_(0) {}
 
 
-void LevelGenerator::generate(Size2D room_count, int difficult) {
+void game::LevelGenerator::generate(Size2D room_count, int difficult) {
     Field::deleteInstance();
     difficult_ = difficult;
 
@@ -147,7 +149,7 @@ void LevelGenerator::generate(Size2D room_count, int difficult) {
     Position2D exit = Position2D(field_size.x - 2, field_size.y - 2);
     field.getCell(exit).changeType(CellType::Exit);
 
-    sharedLevelPassObjectFactory levelPassFactory = std::make_shared<LevelPassObjectFactory>();
+    game::sharedLevelPassObjectFactory levelPassFactory = std::make_shared<game::LevelPassObjectFactory>();
     sharedObject object = levelPassFactory->createObject();
     Position2D level_pass_object_position(rand() % field_size.x, rand() % field_size.y);
 
@@ -158,7 +160,7 @@ void LevelGenerator::generate(Size2D room_count, int difficult) {
     placeObject(level_pass_object_position, object);
 }
 
-void LevelGenerator::spawnEnemies(Enemies& enemies, int difficult) {
+void game::LevelGenerator::spawnEnemies(Enemies& enemies, int difficult) {
     difficult_ = difficult;
 
     Field& field = Field::getInstance();
@@ -199,27 +201,31 @@ void LevelGenerator::spawnEnemies(Enemies& enemies, int difficult) {
 }
 
 
-void LevelGenerator::placeObject(Position2D position, const sharedObject& object) {
+void game::LevelGenerator::placeObject(Position2D position, const sharedObject& object) {
+    Field& field = Field::getInstance();
     object->getEventManager().subscribe(logger_);
 
-    if (Field::isCreated()) {
-        Field::getInstance().getCell(position).setObject(object);
+    if (Field::isCreated() && field.getCell(position).getType() == CellType::Empty) {
+        field.getCell(position).setObject(object);
     }
 }
 
 
-Position2D LevelGenerator::getEntryPosition() const {
+Position2D game::LevelGenerator::getEntryPosition() const {
     return entry_;
 }
 
 
 template<typename movement_behavior, typename attack_behavior>
-sharedAbstractEnemy LevelGenerator::createEnemy(const Position2D& position) {
+game::sharedAbstractEnemy game::LevelGenerator::createEnemy(const Position2D& position) {
     sharedAbstractEnemy enemy = std::make_shared<Enemy<movement_behavior, attack_behavior>>(position);
-    enemy->setMaxHealth(10 + difficult_ * difficult_ * 5);
-    enemy->setHealth(10 + difficult_ * difficult_ * 5);
-    enemy->setAttackDamage(1 + difficult_ * difficult_ * 2);
+    enemy->setMaxHealth(10 + difficult_ * difficult_ * 2);
+    enemy->setHealth(10 + difficult_ * difficult_ * 2);
+    enemy->setAttackDamage(1 + difficult_ * difficult_);
     enemy->setProtection(0 + difficult_ * difficult_);
     enemy->getEventManager().subscribe(logger_);
     return enemy;
 }
+
+
+};

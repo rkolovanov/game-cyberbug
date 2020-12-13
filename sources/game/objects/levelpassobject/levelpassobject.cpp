@@ -1,19 +1,21 @@
 #include "sources/game/objects/levelpassobject/levelpassobject.h"
 #include "sources/game/objects/levelpassobject/levelpassobjectfactory.h"
-#include "sources/game/objects/creatures/player/player.h"
+#include "sources/game/creatures/player/player.h"
+
+namespace game {
 
 
-sharedObject LevelPassObject::getCopy() const {
+game::sharedObject game::LevelPassObject::getCopy() const {
     return sharedObject(std::make_shared<LevelPassObjectFactory>()->createObject());
 }
 
 
-const std::type_info &LevelPassObject::getClass() const {
+const std::type_info& game::LevelPassObject::getClass() const {
     return typeid(LevelPassObject);
 }
 
 
-void LevelPassObject::executeInteraction(Creature& creature) {
+void game::LevelPassObject::executeInteraction(Creature& creature) {
     try {
         Player& player = dynamic_cast<Player&>(creature);
         player.setPassFounded(true);
@@ -21,11 +23,14 @@ void LevelPassObject::executeInteraction(Creature& creature) {
 }
 
 
-bool LevelPassObject::getReusable() const {
+bool game::LevelPassObject::getReusable() const {
     return false;
 }
 
 
-LevelPassObject::~LevelPassObject() {
+game::LevelPassObject::~LevelPassObject() {
     getEventManager().notify("Destroying: Object of class 'LevelPassObject'.");
 }
+
+
+};

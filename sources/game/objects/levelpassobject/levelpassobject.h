@@ -3,6 +3,8 @@
 
 #include "sources/game/objects/object.h"
 
+namespace game {
+
 
 class LevelPassObject final: public Object {
 public:
@@ -16,5 +18,7 @@ public:
     bool getReusable() const override;
 }; // class LevelPassObject
 
+
+};
 
 #endif // SOURCES_GAME_OBJECTS_LEVEL_PASS_OBJECT_LEVEL_PASS_OBJECT_H

@@ -1,6 +1,11 @@
 #include "sources/game/objects/object.h"
 
+namespace game {
 
-EventManager& Object::getEventManager() {
+
+EventManager& game::Object::getEventManager() {
     return event_manager_;
 }
+
+
+};

@@ -4,10 +4,12 @@
 #include "sources/gui/texturemanager.h"
 #include "sources/game/field.h"
 
+namespace gui {
 
-void gui::LevelPainter::paint(sharedQPixmap& levelPixmap, const sharedConstPlayer& player, const Enemies& enemies) {
-    if (Field::isCreated() && player != nullptr) {
-        const Field& field = Field::getInstance();
+
+void gui::LevelPainter::paint(sharedQPixmap& levelPixmap, const game::sharedConstPlayer& player, const game::Enemies& enemies) {
+    if (game::Field::isCreated() && player != nullptr) {
+        const game::Field& field = game::Field::getInstance();
         Size2D fieldSize = field.getSize();
 
         if (levelPixmap == nullptr ||
@@ -19,14 +21,14 @@ void gui::LevelPainter::paint(sharedQPixmap& levelPixmap, const sharedConstPlaye
 
         QPainter painter(levelPixmap.get());
 
-        for (const Cell& cell : field) {
+        for (const game::Cell& cell : field) {
             Position2D coords = cell.getPosition();
 
             painter.drawImage(coords.x * 64, coords.y * 64, TextureManager::getTextureImage(TextureManager::getCellTexture(cell)));
 
-            if (cell.getType() == CellType::Entry) {
+            if (cell.getType() == game::CellType::Entry) {
                 painter.drawImage(coords.x * 64, coords.y * 64, TextureManager::getTextureImage(Texture::Entry));
-            } else if (cell.getType() == CellType::Exit) {
+            } else if (cell.getType() == game::CellType::Exit) {
                 painter.drawImage(coords.x * 64, coords.y * 64, TextureManager::getTextureImage(Texture::Exit));
             }
 
@@ -62,3 +64,6 @@ void gui::LevelPainter::paint(sharedQPixmap& levelPixmap, const sharedConstPlaye
         painter.drawImage(player->getPosition().x * 64, player->getPosition().y * 64, TextureManager::getTextureImage(TextureManager::getCreatureTexture(player)));
     }
 }
+
+
+};

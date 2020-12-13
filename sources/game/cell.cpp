@@ -1,21 +1,23 @@
 #include "sources/game/cell.h"
 
+namespace game {
 
-Cell::Cell(): passable_(false), type_(CellType::None) {}
+
+game::Cell::Cell(): passable_(false), type_(CellType::None) {}
 
 
-Cell::Cell(Position2D coords, CellType type, sharedObject object)
+game::Cell::Cell(Position2D coords, CellType type, sharedObject object)
     : passable_(false), position_(coords), object_(object) {
     changeType(type);
 }
 
 
-Cell::Cell(const Cell& other) {
+game::Cell::Cell(const Cell& other) {
     operator=(other);
 }
 
 
-Cell::Cell(Cell&& other) {
+game::Cell::Cell(Cell&& other) {
     position_ = std::move(other.position_);
     type_ = std::move(other.type_);
     passable_ = std::move(other.passable_);
@@ -23,7 +25,7 @@ Cell::Cell(Cell&& other) {
 }
 
 
-Cell& Cell::operator=(const Cell& other) {
+game::Cell& game::Cell::operator=(const Cell& other) {
     if (this != &other) {
         position_ = other.position_;
         type_ = other.type_;
@@ -38,7 +40,7 @@ Cell& Cell::operator=(const Cell& other) {
 }
 
 
-Cell& Cell::operator=(Cell&& other) {
+game::Cell& game::Cell::operator=(Cell&& other) {
     if (this != &other) {
         position_ = std::move(other.position_);
         type_ = std::move(other.type_);
@@ -49,42 +51,42 @@ Cell& Cell::operator=(Cell&& other) {
 }
 
 
-bool Cell::isPassable() const {
+bool game::Cell::isPassable() const {
     return passable_ && object_ == nullptr;
 }
 
 
-bool Cell::getPassable() const {
+bool game::Cell::getPassable() const {
     return passable_;
 }
 
 
-sharedConstObject Cell::getObject() const {
+game::sharedConstObject game::Cell::getObject() const {
     return object_;
 }
 
 
-CellType Cell::getType() const {
+game::CellType game::Cell::getType() const {
     return type_;
 }
 
 
-Position2D Cell::getPosition() const {
+Position2D game::Cell::getPosition() const {
     return position_;
 }
 
 
-sharedObject& Cell::getObject() {
+game::sharedObject& game::Cell::getObject() {
     return object_;
 }
 
 
-void Cell::setObject(const sharedObject& object) {
+void game::Cell::setObject(const sharedObject& object) {
     object_ = object;
 }
 
 
-void Cell::changeType(CellType type) {
+void game::Cell::changeType(CellType type) {
     type_ = type;
 
     switch (type) {
@@ -101,3 +103,6 @@ void Cell::changeType(CellType type) {
         return;
     }
 }
+
+
+};

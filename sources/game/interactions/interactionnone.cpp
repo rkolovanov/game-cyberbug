@@ -1,9 +1,14 @@
 #include "sources/game/interactions/interactionnone.h"
 
+namespace game {
 
-void InteractionNone::interact(Creature&, sharedObject&) {}
+
+void game::InteractionNone::interact(Creature&, sharedObject&) {}
 
 
-InteractionType InteractionNone::getType() const {
+game::InteractionType game::InteractionNone::getType() const {
     return InteractionType::None;
 }
+
+
+};

@@ -6,11 +6,13 @@
 #include "sources/game/objects/levelpassobject/levelpassobjectfactory.h"
 #include "sources/game/objects/weapon/weaponfactory.h"
 #include "sources/game/objects/medicines/medicinesfactory.h"
-#include "sources/game/objects/creatures/enemies/enemy.h"
+#include "sources/game/creatures/enemies/enemy.h"
+
+namespace game {
 
 
-GameLoader::GameLoader(const std::string& path, const sharedEventListener& logging_listener): logging_listener_(logging_listener), error_(false) {
-    file_.open(path);
+game::GameLoader::GameLoader(const std::string& path, const sharedEventListener& logging_listener): logging_listener_(logging_listener), error_(false) {
+    file_.open(path, std::ios::binary);
     event_manager_.subscribe(logging_listener);
 
     if (!file_.is_open()) {
@@ -21,19 +23,19 @@ GameLoader::GameLoader(const std::string& path, const sharedEventListener& loggi
 }
 
 
-GameLoader::~GameLoader() {
+game::GameLoader::~GameLoader() {
     if (!error_) {
         file_.close();
     }
 }
 
 
-bool GameLoader::isInvalid() const {
+bool game::GameLoader::isInvalid() const {
     return error_;
 }
 
 
-void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
+void game::GameLoader::load(sharedPlayer& player, Enemies& enemies) {
     if (isInvalid()) {
         return;
     }
@@ -41,10 +43,11 @@ void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
     std::ostringstream message_stream;
     Size2D field_size;
 
-    file_.read((char*)(&field_size), sizeof(Size2D));
     if (file_.eof()) {
         throw Exception("Error with reading save");
     }
+
+    file_.read((char*)(&field_size), sizeof(Size2D));
 
     message_stream << "Reading: Size2D" << field_size << " of class Field";
     event_manager_.notify(message_stream);
@@ -74,13 +77,13 @@ void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
             sharedConstObject cell_object = cell.getObject();
             bool cell_has_object = (cell_object != nullptr);
 
-            file_.read((char*)(&cell_position), sizeof(Position2D));
-            file_.read((char*)(&cell_type), sizeof(CellType));
-            file_.read((char*)(&cell_has_object), sizeof(bool));
-
             if (file_.eof()) {
                 throw Exception("Error with reading save");
             }
+
+            file_.read((char*)(&cell_position), sizeof(Position2D));
+            file_.read((char*)(&cell_type), sizeof(CellType));
+            file_.read((char*)(&cell_has_object), sizeof(bool));
 
             cell = Cell(cell_position);
             cell.changeType(cell_type);
@@ -93,13 +96,18 @@ void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
             if (cell_has_object) {
                 size_t type_hash;
                 sharedObject object;
-                file_.read((char*)(&type_hash), sizeof(size_t));
 
                 if (file_.eof()) {
                     throw Exception("Error with reading save");
                 }
 
+                file_.read((char*)(&type_hash), sizeof(size_t));
+
                 message_stream << "and Object(Hash: " << type_hash << ")";
+
+                if (file_.eof()) {
+                    throw Exception("Error with reading save");
+                }
 
                 if (type_hash == typeid(Armor).hash_code()) {
                     int protection;
@@ -119,10 +127,6 @@ void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
                     throw Exception("Unknown object class! Type hash: " + std::to_string(type_hash));
                 }
 
-                if (!file_.good()) {
-                    throw Exception("Error with reading save");
-                }
-
                 if (object != nullptr) {
                     object->getEventManager().subscribe(logging_listener_);
                     cell.setObject(object);
@@ -139,53 +143,69 @@ void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
     event_manager_.notify("Reading: Player");
 
     PlayerMemento player_snapshot;
+
+    if (file_.eof()) {
+        throw Exception("Error with reading save");
+    }
+
     file_.read((char*)(&player_snapshot), sizeof(PlayerMemento));
 
+    size_t enemies_size = enemies.size();
+
     if (file_.eof()) {
         throw Exception("Error with reading save");
     }
 
-    event_manager_.notify("Reading: Enemies size");
-
-    size_t enemies_size = enemies.size();
     file_.read((char*)(&enemies_size), sizeof(size_t));
 
-    if (file_.eof()) {
-        throw Exception("Error with reading save");
-    }
+    event_manager_.notify("Reading: Enemies size (" + std::to_string(enemies_size) + ")");
 
     Enemies enemies_snapshot;
     for (size_t i = 0; i < enemies_size; i++) {
         sharedAbstractEnemy enemy;
         EnemyMemento enemy_snapshot;
 
-        file_.read((char*)(&enemy_snapshot), sizeof(EnemyMemento));
-
-        if (file_.eof() && i < enemies_size - 1) {
+        if (file_.eof()) {
             throw Exception("Error with reading save");
         }
 
-        if (enemy_snapshot.getAttackBehaviorHash() == typeid(MeleeAttackBehavior).hash_code()) {
-            if (enemy_snapshot.getMovementBehaviorHash() == typeid(StandMovementBehavior).hash_code()) {
+        file_.read((char*)(&enemy_snapshot), sizeof(EnemyMemento));
+
+        message_stream << "Reading: Enemy(Position: " << enemy_snapshot.getPosition() <<
+                          ", Health: " << enemy_snapshot.getHealth() <<
+                          ", Max Health: " << enemy_snapshot.getMaxHealth() <<
+                          ", Protection: " << enemy_snapshot.getProtection() <<
+                          ", Rotation: " << (int)enemy_snapshot.getRotation() <<
+                          ", Damage: " << enemy_snapshot.getAttackDamage() <<
+                          ", Attack Behavior: " << enemy_snapshot.getAttackBehaviorHash() <<
+                          ", Movement Behavior: " << enemy_snapshot.getMovementBehaviorHash() <<
+                          ")";
+        event_manager_.notify(message_stream);
+        message_stream = std::ostringstream();
+
+        if (enemy_snapshot.getAttackBehaviorHash() == typeid(game::MeleeAttackBehavior).hash_code()) {
+            if (enemy_snapshot.getMovementBehaviorHash() == typeid(game::StandMovementBehavior).hash_code()) {
                 enemy = std::make_shared<Enemy<StandMovementBehavior, MeleeAttackBehavior>>(enemy_snapshot.getPosition());
-            } else if (enemy_snapshot.getMovementBehaviorHash() == typeid(WalkMovementBehavior).hash_code()) {
+            } else if (enemy_snapshot.getMovementBehaviorHash() == typeid(game::WalkMovementBehavior).hash_code()) {
                 enemy = std::make_shared<Enemy<WalkMovementBehavior, MeleeAttackBehavior>>(enemy_snapshot.getPosition());
+            } else {
+                throw Exception("Unknown enemy movement behavior: " + std::to_string(enemy_snapshot.getMovementBehaviorHash()));
             }
-        } else if (enemy_snapshot.getAttackBehaviorHash() == typeid(DistanceAttackBehavior).hash_code()) {
-            if (enemy_snapshot.getMovementBehaviorHash() == typeid(StandMovementBehavior).hash_code()) {
+        } else if (enemy_snapshot.getAttackBehaviorHash() == typeid(game::DistanceAttackBehavior).hash_code()) {
+            if (enemy_snapshot.getMovementBehaviorHash() == typeid(game::StandMovementBehavior).hash_code()) {
                 enemy = std::make_shared<Enemy<StandMovementBehavior, DistanceAttackBehavior>>(enemy_snapshot.getPosition());
-            } else if (enemy_snapshot.getMovementBehaviorHash() == typeid(WalkMovementBehavior).hash_code()) {
+            } else if (enemy_snapshot.getMovementBehaviorHash() == typeid(game::WalkMovementBehavior).hash_code()) {
                 enemy = std::make_shared<Enemy<WalkMovementBehavior, DistanceAttackBehavior>>(enemy_snapshot.getPosition());
+            } else {
+                throw Exception("Unknown enemy movement behavior: " + std::to_string(enemy_snapshot.getMovementBehaviorHash()));
             }
+        } else {
+            throw Exception("Unknown enemy attack behavior: " + std::to_string(enemy_snapshot.getAttackBehaviorHash()));
         }
 
         enemy->restore(enemy_snapshot);
         enemy->getEventManager().subscribe(logging_listener_);
         enemies_snapshot.push_back(enemy);
-
-        message_stream << "Reading: Enemy(Position: " << enemy->getPosition() << ")";
-        event_manager_.notify(message_stream);
-        message_stream = std::ostringstream();
     }
 
     Field::getInstance().restore(field_snapshot);
@@ -194,3 +214,6 @@ void GameLoader::load(sharedPlayer& player, Enemies& enemies) {
     enemies = enemies_snapshot;
     event_manager_.notify("Loading complete!");
 }
+
+
+};

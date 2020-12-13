@@ -6,17 +6,19 @@
 #include "sources/game/objects/armor/armor.h"
 #include "sources/game/objects/weapon/weapon.h"
 #include "sources/game/objects/medicines/medicines.h"
-#include "sources/game/objects/creatures/enemies/enemy.h"
-#include "sources/game/objects/creatures/player/playermemento.h"
+#include "sources/game/creatures/enemies/enemy.h"
+#include "sources/game/creatures/player/playermemento.h"
 #include "sources/game/objects/levelpassobject/levelpassobject.h"
-#include "sources/game/objects/creatures/meleeattackbehavior.h"
-#include "sources/game/objects/creatures/distanceattackbehavior.h"
-#include "sources/game/objects/creatures/standmovementbehavior.h"
-#include "sources/game/objects/creatures/walkmovementbehavior.h"
+#include "sources/game/creatures/meleeattackbehavior.h"
+#include "sources/game/creatures/distanceattackbehavior.h"
+#include "sources/game/creatures/standmovementbehavior.h"
+#include "sources/game/creatures/walkmovementbehavior.h"
+
+namespace game {
 
 
-GameSaver::GameSaver(const std::string& path, const sharedEventListener& logging_listener): error_(false) {
-    file_.open(path);
+game::GameSaver::GameSaver(const std::string& path, const sharedEventListener& logging_listener): error_(false) {
+    file_.open(path, std::ios::binary);
     event_manager_.subscribe(logging_listener);
 
     if (!file_.is_open()) {
@@ -27,19 +29,19 @@ GameSaver::GameSaver(const std::string& path, const sharedEventListener& logging
 }
 
 
-GameSaver::~GameSaver() {
+game::GameSaver::~GameSaver() {
     if (!error_) {
         file_.close();
     }
 }
 
 
-bool GameSaver::isInvalid() const {
+bool game::GameSaver::isInvalid() const {
     return error_;
 }
 
 
-void GameSaver::save(const sharedPlayer& player, const Enemies& enemies) {
+void game::GameSaver::save(const sharedPlayer& player, const Enemies& enemies) {
     if (isInvalid()) {
         return;
     }
@@ -117,8 +119,11 @@ void GameSaver::save(const sharedPlayer& player, const Enemies& enemies) {
         EnemyMemento enemy_snapshot = enemy->save();
         file_.write((char*)(&enemy_snapshot), sizeof(EnemyMemento));
 
-        message_stream << "Writing: Enemy(Position: " << enemy->getPosition() << ")";
+        message_stream << "Writing: Enemy(Position: " << enemy_snapshot.getPosition() << ")";
         event_manager_.notify(message_stream);
         message_stream = std::ostringstream();
     }
 }
+
+
+};

@@ -1,8 +1,10 @@
 #include "sources/game/enemiesturnstate.h"
 #include "sources/game/playerturnstate.h"
 
+namespace game {
 
-void EnemiesTurnState::startTurn(GameController& controller) {
+
+void game::EnemiesTurnState::startTurn(GameController& controller) {
     sharedCreature player = controller.getPlayer();
 
     for (auto& enemy : controller.getEnemies()) {
@@ -27,7 +29,7 @@ void EnemiesTurnState::startTurn(GameController& controller) {
 }
 
 
-void EnemiesTurnState::endTurn(GameController& controller) {
+void game::EnemiesTurnState::endTurn(GameController& controller) {
     if (controller.getPlayer()->getHealth() <= 0) {
         controller.setPlayerDead(true);
     }
@@ -35,10 +37,13 @@ void EnemiesTurnState::endTurn(GameController& controller) {
 }
 
 
-void EnemiesTurnState::movePlayer(GameController&, Direction) {}
+void game::EnemiesTurnState::movePlayer(GameController&, Direction) {}
 
 
-void EnemiesTurnState::executePlayerInteraction(GameController&) {}
+void game::EnemiesTurnState::executePlayerInteraction(GameController&) {}
 
 
-void EnemiesTurnState::executePlayerAttack(GameController&) {}
+void game::EnemiesTurnState::executePlayerAttack(GameController&) {}
+
+
+};

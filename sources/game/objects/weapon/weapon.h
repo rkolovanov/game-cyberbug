@@ -3,6 +3,8 @@
 
 #include "sources/game/objects/object.h"
 
+namespace game {
+
 using sharedArmor = std::shared_ptr<class Armor>;
 
 
@@ -23,5 +25,7 @@ public:
     bool getReusable() const override;
 }; // class Weapon
 
+
+};
 
 #endif // SOURCES_GAME_OBJECTS_WEAPON_WEAPON_H

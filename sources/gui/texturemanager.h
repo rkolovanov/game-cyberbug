@@ -6,7 +6,7 @@
 
 #include "sources/gui/texture.h"
 #include "sources/game/cell.h"
-#include "sources/game/objects/creatures/creature.h"
+#include "sources/game/creatures/creature.h"
 
 namespace gui {
 
@@ -18,9 +18,9 @@ private:
 public:
     static void initTextures();
     static QImage& getTextureImage(Texture texture);
-    static Texture getCellTexture(const Cell& cell);
-    static Texture getObjectTexture(const sharedConstObject& object);
-    static Texture getCreatureTexture(const sharedConstCreature& creature);
+    static Texture getCellTexture(const game::Cell& cell);
+    static Texture getObjectTexture(const game::sharedConstObject& object);
+    static Texture getCreatureTexture(const game::sharedConstCreature& creature);
 }; // class TextureManager
 
 

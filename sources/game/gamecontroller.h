@@ -3,11 +3,13 @@
 
 #include <QPixmap>
 
-#include "sources/game/objects/creatures/player/player.h"
-#include "sources/game/objects/creatures/enemies/abstractenemy.h"
+#include "sources/game/creatures/player/player.h"
+#include "sources/game/creatures/enemies/abstractenemy.h"
 #include "sources/game/field.h"
 #include "sources/game/gamestate.h"
 #include "sources/logging/logginglistener.h"
+
+namespace game {
 
 using sharedGameController = std::shared_ptr<class GameController>;
 using sharedQPixmap = std::shared_ptr<QPixmap>;
@@ -18,14 +20,14 @@ class GameController final {
 private:
     sharedPlayer player_;
     Enemies enemies_;
-    sharedLoggingListener logger_;
+    logging::sharedLoggingListener logger_;
     sharedGameState state_;
     size_t level_ = 0;
     bool level_complete_ = false;
     bool player_dead_ = false;
 
 public:
-    GameController(const sharedLoggingListener& logger);
+    GameController(const logging::sharedLoggingListener& logger);
     ~GameController();
 
     void newGame();
@@ -40,7 +42,6 @@ public:
     void changeState(const sharedGameState& state);
     void checkLevelFinish();
     bool isLevelComplete();
-    void setLevelNumber(size_t level);
     size_t getLevelNumber() const;
     bool isPlayerReachedExit() const;
     bool isPassablePosition(const Position2D& position) const;
@@ -51,5 +52,7 @@ public:
     void setPlayerDead(bool value);
 }; // class GameController
 
+
+};
 
 #endif // SOURCES_GAME_GAMECONTROLLER_H

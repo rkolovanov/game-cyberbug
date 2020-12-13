@@ -5,6 +5,8 @@
 
 #include "sources/game/interactions/interactiontype.h"
 
+namespace game {
+
 class Creature;
 using sharedObject = std::shared_ptr<class Object>;
 using sharedInteractionStrategy = std::shared_ptr<class InteractionStrategy>;
@@ -17,5 +19,7 @@ public:
     virtual ~InteractionStrategy() = default;
 }; // class InteractionStrategy
 
+
+};
 
 #endif // SOURCES_INTERACTIONS_INTERACTION_STRATEGY_H

@@ -1,6 +1,8 @@
 #include "sources/logging/filelogger.h"
 #include "sources/logging/fileloggerimplementation.h"
 
+namespace logging {
+
 
 FileLogger::FileLogger(const std::string& filepath)
     : Logger(std::make_shared<FileLoggerImplementation>()), error_(false) {
@@ -27,3 +29,6 @@ void FileLogger::log(const std::ostringstream& message) {
 FileLogger::~FileLogger() {
     file_.close();
 }
+
+
+};

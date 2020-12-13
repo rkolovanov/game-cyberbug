@@ -3,11 +3,15 @@
 
 #include "sources/logging/loggerimplementation.h"
 
+namespace logging {
+
 
 class ConsoleLoggerImplementation final: public LoggerImplementation {
 public:
     void log(std::ostream& stream, const std::ostringstream& message) override;
 }; // class ConsoleLoggerImplementation
 
+
+};
 
 #endif // SOURCES_LOGGING_CONSOLE_LOGGER_IMPLEMENTATION_H

@@ -6,6 +6,8 @@
 
 #include "sources/logging/loggerimplementation.h"
 
+namespace logging {
+
 using sharedLogger = std::shared_ptr<class Logger>;
 
 
@@ -20,5 +22,7 @@ public:
     virtual void log(const std::ostringstream& message) = 0;
 }; // class Logger
 
+
+};
 
 #endif // SOURCES_LOGGING_LOGGER_H

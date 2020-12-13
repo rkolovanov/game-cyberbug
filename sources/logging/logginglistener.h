@@ -7,6 +7,8 @@
 #include "sources/logging/consolelogger.h"
 #include "sources/logging/filelogger.h"
 
+namespace logging {
+
 using sharedLoggingListener = std::shared_ptr<class LoggingListener>;
 
 
@@ -21,5 +23,7 @@ public:
     void update(const std::string& message);
 }; // class LoggingListener
 
+
+};
 
 #endif // SOURCES_LOGGING_LOGGING_LISTENER_H

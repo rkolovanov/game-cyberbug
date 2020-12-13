@@ -3,6 +3,8 @@
 
 #include "sources/game/gamecontroller.h"
 
+namespace game {
+
 using sharedGameController = std::shared_ptr<class GameController>;
 using sharedGameState = std::shared_ptr<class GameState>;
 
@@ -16,5 +18,7 @@ public:
     virtual void executePlayerAttack(GameController& controller) = 0;
 }; // class GameState
 
+
+};
 
 #endif // SOURCES_GAME_GAME_STATE_H

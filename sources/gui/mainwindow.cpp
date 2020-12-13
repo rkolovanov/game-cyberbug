@@ -14,16 +14,18 @@
 #include "sources/game/objects/armor/armor.h"
 #include "sources/game/objects/weapon/weapon.h"
 #include "sources/game/objects/levelpassobject/levelpassobject.h"
-#include "sources/commands/moveplayercommand.h"
-#include "sources/commands/interactplayercommand.h"
-#include "sources/commands/startlevelcommand.h"
-#include "sources/commands/attackplayercommand.h"
-#include "sources/commands/savegamecommand.h"
-#include "sources/commands/loadgamecommand.h"
-#include "sources/commands/newgamecommand.h"
+#include "sources/gui/commands/moveplayercommand.h"
+#include "sources/gui/commands/interactplayercommand.h"
+#include "sources/gui/commands/startlevelcommand.h"
+#include "sources/gui/commands/attackplayercommand.h"
+#include "sources/gui/commands/savegamecommand.h"
+#include "sources/gui/commands/loadgamecommand.h"
+#include "sources/gui/commands/newgamecommand.h"
+
+namespace gui {
 
 
-gui::MainWindow::MainWindow(const sharedGameController& controller, const sharedLoggingListener& logger, QWidget* parent): QMainWindow(parent), ui_(new Ui::MainWindow), logger_(logger), controller_(controller) {
+gui::MainWindow::MainWindow(const game::sharedGameController& controller, const logging::sharedLoggingListener& logger, QWidget* parent): QMainWindow(parent), ui_(new Ui::MainWindow), logger_(logger), controller_(controller) {
     ui_->setupUi(this);
 
     view_ = std::make_shared<QGraphicsView>(this);
@@ -50,11 +52,11 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
     view_->setStyleSheet("background-color: black;");
     view_->setScene(scene_.get());
 
-    levelLabel_->move(25, 25);
-    healthLabel_->move(25, 45);
-    maxHealthLabel_->move(25, 65);
-    attackLabel_->move(25, 85);
-    armorLabel_->move(25, 105);
+    levelLabel_->move(10, 25);
+    healthLabel_->move(10, 45);
+    maxHealthLabel_->move(10, 65);
+    attackLabel_->move(10, 85);
+    armorLabel_->move(10, 105);
 
     levelLabel_->resize(200, 20);
     healthLabel_->resize(200, 20);
@@ -80,7 +82,7 @@ gui::MainWindow::MainWindow(const sharedGameController& controller, const shared
 
 
 void gui::MainWindow::updateScene(bool move_view) {
-    sharedConstPlayer player = controller_->getPlayer();
+    game::sharedConstPlayer player = controller_->getPlayer();
 
     levelLabel_->setText("Floor: " + QString::number(controller_->getLevelNumber()));
     healthLabel_->setText("Health: " + QString::number(player->getHealth()));
@@ -184,3 +186,6 @@ void gui::MainWindow::on_action_exit_triggered() {
         quit();
     }
 }
+
+
+};

@@ -4,6 +4,8 @@
 #include "sources/game/objects/objectfactory.h"
 #include "sources/game/objects/levelpassobject/levelpassobject.h"
 
+namespace game {
+
 using sharedLevelPassObjectFactory = std::shared_ptr<class LevelPassObjectFactory>;
 
 
@@ -12,5 +14,7 @@ public:
     virtual sharedObject createObject() override;
 }; // class LevelPassObjectFactory
 
+
+};
 
 #endif // SOURCES_GAME_OBJECTS_LEVEL_PASS_OBJECT_LEVEL_PASS_OBJECT_FACTORY_H

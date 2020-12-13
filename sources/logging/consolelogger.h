@@ -3,6 +3,8 @@
 
 #include "sources/logging/logger.h"
 
+namespace logging {
+
 
 class ConsoleLogger final: public Logger {
 private:
@@ -14,5 +16,7 @@ public:
     void log(const std::ostringstream& message) override;
 }; // class ConsoleLogger
 
+
+};
 
 #endif // SOURCES_LOGGING_CONSOLE_LOGGER_H

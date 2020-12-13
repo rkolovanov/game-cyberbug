@@ -1,7 +1,9 @@
 #include "sources/game/fieldmemento.h"
 
+namespace game {
 
-FieldMemento::FieldMemento(const sharedCellTable& cells, Size2D size) {
+
+game::FieldMemento::FieldMemento(const sharedCellTable& cells, Size2D size) {
     size_ = size;
 
     if (cells == nullptr) {
@@ -21,11 +23,14 @@ FieldMemento::FieldMemento(const sharedCellTable& cells, Size2D size) {
 }
 
 
-sharedCellTable FieldMemento::getCellTable() {
+game::sharedCellTable game::FieldMemento::getCellTable() {
     return cells_;
 }
 
 
-Size2D FieldMemento::getSize() const {
+Size2D game::FieldMemento::getSize() const {
     return size_;
 }
+
+
+};

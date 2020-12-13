@@ -1,11 +1,16 @@
 #include "sources/game/objects/armor/armorfactory.h"
 
+namespace game {
 
-sharedObject ArmorFactory::createObject() {
+
+game::sharedObject game::ArmorFactory::createObject() {
     return std::make_shared<Armor>(1);
 }
 
 
-sharedObject ArmorFactory::createArmor(int protectionValue) {
+game::sharedObject game::ArmorFactory::createArmor(int protectionValue) {
     return std::make_shared<Armor>(protectionValue);
 }
+
+
+};

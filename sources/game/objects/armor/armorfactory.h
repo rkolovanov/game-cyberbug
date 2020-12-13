@@ -4,6 +4,8 @@
 #include "sources/game/objects/objectfactory.h"
 #include "sources/game/objects/armor/armor.h"
 
+namespace game {
+
 using sharedArmorFactory = std::shared_ptr<class ArmorFactory>;
 
 
@@ -13,5 +15,7 @@ public:
     virtual sharedObject createArmor(int protection_value);
 }; // class ArmorFactor
 
+
+};
 
 #endif // SOURCES_GAME_OBJECTS_ARMOR_ARMOR_FACTORY_H

@@ -1,8 +1,10 @@
 #include "sources/game/field.h"
 #include "sources/game/interactions/interactionuse.h"
 
+namespace game {
 
-void InteractionUse::interact(Creature& creature, sharedObject& target) {
+
+void game::InteractionUse::interact(Creature& creature, sharedObject& target) {
     if (target != nullptr) {
         target->executeInteraction(creature);
 
@@ -13,6 +15,9 @@ void InteractionUse::interact(Creature& creature, sharedObject& target) {
 }
 
 
-InteractionType InteractionUse::getType() const {
+game::InteractionType game::InteractionUse::getType() const {
     return InteractionType::Use;
 }
+
+
+};

@@ -6,8 +6,10 @@
 
 #include "sources/logging/logger.h"
 #include "sources/common/eventmanager.h"
-#include "sources/game/objects/creatures/player/player.h"
-#include "sources/game/objects/creatures/enemies/abstractenemy.h"
+#include "sources/game/creatures/player/player.h"
+#include "sources/game/creatures/enemies/abstractenemy.h"
+
+namespace game {
 
 
 class GameSaver final {
@@ -24,5 +26,7 @@ public:
     void save(const sharedPlayer& player, const Enemies& enemies);
 }; // class GameSaver
 
+
+};
 
 #endif // SOURCES_GAME_GAME_SAVER_H

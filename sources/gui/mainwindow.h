@@ -11,9 +11,9 @@
 
 #include "sources/game/gamecontroller.h"
 #include "sources/gui/texture.h"
-#include "sources/commands/commandtype.h"
+#include "sources/gui/commands/commandtype.h"
 #include "sources/common/settings.h"
-#include "sources/commands/command.h"
+#include "sources/gui/commands/command.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -45,13 +45,13 @@ private:
     sharedQLabel attackLabel_;
     sharedQLabel armorLabel_;
     QMap<CommandType, sharedCommand> commands_;
-    sharedLoggingListener logger_;
-    sharedGameController controller_;
+    logging::sharedLoggingListener logger_;
+    game::sharedGameController controller_;
     bool screenPinning_ = false;
     bool isPressed_ = false;
 
 public:
-    MainWindow(const sharedGameController& controller, const sharedLoggingListener& logger, QWidget* parent = nullptr);
+    MainWindow(const game::sharedGameController& controller, const logging::sharedLoggingListener& logger, QWidget* parent = nullptr);
 
     void updateScene(bool move_view = false);
     void keyPressEvent(QKeyEvent* event) override;

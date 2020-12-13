@@ -6,8 +6,10 @@
 #include "sources/game/objects/medicines/medicines.h"
 #include "sources/game/objects/weapon/weapon.h"
 #include "sources/game/objects/levelpassobject/levelpassobject.h"
-#include "sources/game/objects/creatures/player/player.h"
-#include "sources/game/objects/creatures/enemies/enemy.h"
+#include "sources/game/creatures/player/player.h"
+#include "sources/game/creatures/enemies/enemy.h"
+
+namespace gui {
 
 
 QMap<Texture, QImage> gui::TextureManager::textures_;
@@ -60,8 +62,8 @@ QImage& gui::TextureManager::getTextureImage(Texture texture) {
 }
 
 
-Texture gui::TextureManager::getCellTexture(const Cell& cell) {
-    const Field& field = Field::getInstance();
+Texture gui::TextureManager::getCellTexture(const game::Cell& cell) {
+    const game::Field& field = game::Field::getInstance();
     Position2D neighborCellsPosition[4];
     int result = 0;
 
@@ -72,13 +74,13 @@ Texture gui::TextureManager::getCellTexture(const Cell& cell) {
 
     for (int i = 0; i < 4; i++) {
         if (field.isCorrectPosition(neighborCellsPosition[i])) {
-             if (field.getCell(neighborCellsPosition[i]).getType() == CellType::Wall) {
+             if (field.getCell(neighborCellsPosition[i]).getType() == game::CellType::Wall) {
                  result += pow(2, i);
              }
         }
     }
 
-    if (cell.getType() == CellType::Wall) {
+    if (cell.getType() == game::CellType::Wall) {
         switch (result) {
         case 0: return Texture::WoodWall;
         case 1: return Texture::WoodWallR;
@@ -97,11 +99,11 @@ Texture gui::TextureManager::getCellTexture(const Cell& cell) {
         case 14: return Texture::WoodWallTLB;
         case 15: return Texture::WoodWallTLBR;
         }
-    } else if (cell.getType() == CellType::Empty) {
+    } else if (cell.getType() == game::CellType::Empty) {
         return Texture::WoodFloor;
-    } else if (cell.getType() == CellType::Entry) {
+    } else if (cell.getType() == game::CellType::Entry) {
         return Texture::WoodFloor;
-    } else if (cell.getType() == CellType::Exit) {
+    } else if (cell.getType() == game::CellType::Exit) {
         return Texture::WoodFloor;
     }
 
@@ -109,31 +111,31 @@ Texture gui::TextureManager::getCellTexture(const Cell& cell) {
 }
 
 
-Texture gui::TextureManager::getObjectTexture(const sharedConstObject& object) {
+Texture gui::TextureManager::getObjectTexture(const game::sharedConstObject& object) {
     if (object == nullptr) {
         return Texture::Transparent;
     }
 
-    if (object->getClass() == typeid(Medicines)) {
+    if (object->getClass() == typeid(game::Medicines)) {
         return Texture::ObjectMedicines;
-    } else if (object->getClass() == typeid(Armor)) {
+    } else if (object->getClass() == typeid(game::Armor)) {
         return Texture::ObjectArmor;
-    } else if (object->getClass() == typeid(Weapon)) {
+    } else if (object->getClass() == typeid(game::Weapon)) {
         return Texture::ObjectWeapon;
-    } else if (object->getClass() == typeid(LevelPassObject)) {
+    } else if (object->getClass() == typeid(game::LevelPassObject)) {
         return Texture::ObjectLevelPass;
     }
 
     return Texture::Transparent;
 }
 
-Texture gui::TextureManager::getCreatureTexture(const sharedConstCreature& creature) {
+Texture gui::TextureManager::getCreatureTexture(const game::sharedConstCreature& creature) {
     if (creature == nullptr) {
         return Texture::Transparent;
     }
 
     try {
-        const Player& player = dynamic_cast<const Player&>(*creature);
+        const game::Player& player = dynamic_cast<const game::Player&>(*creature);
 
         switch (player.getRotation()) {
         case Direction::Top:
@@ -160,3 +162,6 @@ Texture gui::TextureManager::getCreatureTexture(const sharedConstCreature& creat
 
     return Texture::Transparent;
 }
+
+
+};

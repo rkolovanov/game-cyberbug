@@ -14,18 +14,18 @@ int main(int argc, char* argv[]) {
 
     if (settings.isInvalid()) {
         std::cerr << "Cannot open settings file: ./settings.txt\n";
-        std::cerr << "Using default settings.\n";
+        std::cout << "Using default settings.\n";
 
         settings["console_logger"] = "true";
         settings["file_logger"] = "true";
         settings["logs_path"] = "./";
     }
 
-    sharedLoggingListener logger(new LoggingListener);
-    logger->addLogger(std::make_shared<ConsoleLogger>(std::cout));
+    logging::sharedLoggingListener logger(new logging::LoggingListener);
+    logger->addLogger(std::make_shared<logging::ConsoleLogger>(std::cout));
 
     std::string logging_file_path = settings["logs_path"] + Time().getCurrentDateTime() + ".log";
-    sharedFileLogger file_logger = std::make_shared<FileLogger>(logging_file_path);
+    logging::sharedFileLogger file_logger = std::make_shared<logging::FileLogger>(logging_file_path);
 
     if (file_logger->isInvalid()) {
         std::cerr << "Cannot open logging file: " + logging_file_path << "\n";
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
     gui::TextureManager::initTextures();
 
-    sharedGameController controller = std::make_shared<GameController>(logger);
+    game::sharedGameController controller = std::make_shared<game::GameController>(logger);
     gui::MainWindow window(controller, logger);
 
     window.show();

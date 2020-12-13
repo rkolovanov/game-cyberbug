@@ -1,6 +1,8 @@
 #ifndef SOURCES_GAME_ROOM_TYPE_H
 #define SOURCES_GAME_ROOM_TYPE_H
 
+namespace game {
+
 
 enum class RoomType {
     Default,
@@ -8,5 +10,7 @@ enum class RoomType {
     Room
 };
 
+
+};
 
 #endif // SOURCES_GAME_ROOM_TYPE_H

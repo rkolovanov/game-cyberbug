@@ -7,6 +7,8 @@
 #include "sources/gui/texture.h"
 #include "sources/common/eventmanager.h"
 
+namespace game {
+
 using sharedObject = std::shared_ptr<class Object>;
 using sharedConstObject = std::shared_ptr<const class Object>;
 using sharedCreature = std::shared_ptr<class Creature>;
@@ -26,5 +28,7 @@ public:
     virtual bool getReusable() const = 0;
 }; // class Object
 
+
+};
 
 #endif // SOURCES_GAME_OBJECTS_OBJECT_H

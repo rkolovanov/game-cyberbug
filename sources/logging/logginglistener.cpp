@@ -1,5 +1,7 @@
 #include "sources/logging/logginglistener.h"
 
+namespace logging {
+
 
 void LoggingListener::addLogger(const sharedLogger& logger) {
     loggers_.insert(logger);
@@ -23,3 +25,6 @@ void LoggingListener::update(const std::ostringstream& message) {
 void LoggingListener::update(const std::string &message) {
     update(std::ostringstream(message));
 }
+
+
+};

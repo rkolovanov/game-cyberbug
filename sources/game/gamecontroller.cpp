@@ -3,17 +3,19 @@
 #include "sources/common/exception.h"
 #include "sources/game/gamecontroller.h"
 #include "sources/game/levelgenerator.h"
-#include "sources/game/objects/creatures/enemies/enemy.h"
+#include "sources/game/creatures/enemies/enemy.h"
 #include "sources/gui/levelpainter.h"
 #include "sources/game/playerturnstate.h"
 #include "sources/game/gamesaver.h"
 #include "sources/game/gameloader.h"
 
+namespace game {
 
-GameController::GameController(const sharedLoggingListener& logger): logger_(logger) {}
+
+game::GameController::GameController(const logging::sharedLoggingListener& logger): logger_(logger) {}
 
 
-void GameController::newGame() {
+void game::GameController::newGame() {
     changeState(std::make_shared<PlayerTurnState>());
     player_ = std::make_shared<Player>(Position2D(0, 0));
     player_->setMaxHealth(100);
@@ -22,11 +24,12 @@ void GameController::newGame() {
     player_->setProtection(0);
     player_->getEventManager().subscribe(logger_);
     player_dead_ = false;
+    level_ = 1;
     createLevel();
 }
 
 
-void GameController::createLevel() {
+void game::GameController::createLevel() {
     LevelGenerator levelGenerator(logger_);
     levelGenerator.generate(Size2D(2 + level_, 2 + level_), level_);
     enemies_.clear();
@@ -37,47 +40,47 @@ void GameController::createLevel() {
 }
 
 
-void GameController::changeState(const sharedGameState& state) {
+void game::GameController::changeState(const sharedGameState& state) {
     state_ = state;
 }
 
 
-void GameController::startTurn() {
+void game::GameController::startTurn() {
     if (state_ != nullptr && !isPlayerDead()) {
         state_->startTurn(*this);
     }
 }
 
 
-void GameController::endTurn() {
+void game::GameController::endTurn() {
     if (state_ != nullptr && !isPlayerDead()) {
         state_->endTurn(*this);
     }
 }
 
 
-void GameController::movePlayer(Direction direction) {
+void game::GameController::movePlayer(Direction direction) {
     if (state_ != nullptr && !isPlayerDead()) {
         state_->movePlayer(*this, direction);
     }
 }
 
 
-void GameController::executePlayerInteraction() {
+void game::GameController::executePlayerInteraction() {
     if (state_ != nullptr && !isPlayerDead()) {
         state_->executePlayerInteraction(*this);
     }
 }
 
 
-void GameController::executePlayerAttack() {
+void game::GameController::executePlayerAttack() {
     if (state_ != nullptr && !isPlayerDead()) {
         state_->executePlayerAttack(*this);
     }
 }
 
 
-void GameController::checkLevelFinish() {
+void game::GameController::checkLevelFinish() {
     if (isPlayerReachedExit() && player_->getPassFounded() && !level_complete_) {
         level_complete_ = true;
         level_++;
@@ -85,23 +88,18 @@ void GameController::checkLevelFinish() {
 }
 
 
-bool GameController::isLevelComplete() {
+bool game::GameController::isLevelComplete() {
     return level_complete_;
 }
 
 
-void GameController::setLevelNumber(size_t level) {
-    level_ = level;
-}
-
-
-bool GameController::isPlayerReachedExit() const {
+bool game::GameController::isPlayerReachedExit() const {
     const Field& field = Field::getInstance();
     return field.getCell(player_->getPosition()).getType() == CellType::Exit;
 }
 
 
-bool GameController::isPassablePosition(const Position2D& position) const {
+bool game::GameController::isPassablePosition(const Position2D& position) const {
     const Field& field = Field::getInstance();
     if (field.getCell(position).isPassable()) {
         for (auto& enemy : enemies_) {
@@ -115,42 +113,42 @@ bool GameController::isPassablePosition(const Position2D& position) const {
 }
 
 
-void GameController::getLevelPixmap(sharedQPixmap& levelPixmap) const {
+void game::GameController::getLevelPixmap(sharedQPixmap& levelPixmap) const {
     gui::LevelPainter::paint(levelPixmap, player_, enemies_);
 }
 
 
-sharedPlayer GameController::getPlayer() {
+game::sharedPlayer game::GameController::getPlayer() {
     return player_;
 }
 
 
-Enemies& GameController::getEnemies() {
+game::Enemies& game::GameController::getEnemies() {
     return enemies_;
 }
 
 
-bool GameController::isPlayerDead() const {
+bool game::GameController::isPlayerDead() const {
     return player_dead_;
 }
 
 
-void GameController::setPlayerDead(bool value) {
+void game::GameController::setPlayerDead(bool value) {
     player_dead_ = value;
 }
 
 
-size_t GameController::getLevelNumber() const {
+size_t game::GameController::getLevelNumber() const {
     return level_;
 }
 
 
-GameController::~GameController() {
+game::GameController::~GameController() {
     logger_->update("Quitting the game...");
 }
 
 
-void GameController::saveGame(const std::string& path) {
+void game::GameController::saveGame(const std::string& path) {
     GameSaver saver(path, logger_);
     try {
         saver.save(player_, enemies_);
@@ -162,7 +160,7 @@ void GameController::saveGame(const std::string& path) {
 }
 
 
-void GameController::loadGame(const std::string& path) {
+void game::GameController::loadGame(const std::string& path) {
     GameLoader loader(path, logger_);
     try {
         loader.load(player_, enemies_);
@@ -173,3 +171,6 @@ void GameController::loadGame(const std::string& path) {
         logger_->update("Unknown error!");
     }
 }
+
+
+};

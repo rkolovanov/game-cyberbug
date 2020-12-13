@@ -5,6 +5,8 @@
 
 #include "sources/logging/logger.h"
 
+namespace logging {
+
 using sharedFileLogger = std::shared_ptr<class FileLogger>;
 
 
@@ -21,5 +23,7 @@ public:
     void log(const std::ostringstream& message) override;
 }; // class FileLogger
 
+
+};
 
 #endif // SOURCES_LOGGING_FILE_LOGGER_H

@@ -7,6 +7,8 @@
 #include "sources/game/cell.h"
 #include "sources/game/fieldmemento.h"
 
+namespace game {
+
 using uniqueField = std::unique_ptr<class Field>;
 using CellRow = std::vector<Cell>;
 using CellTable = std::vector<CellRow>;
@@ -76,5 +78,7 @@ public:
     const Cell& operator*() const;
 }; // class Field::ConstFieldIterator
 
+
+};
 
 #endif // SOURCES_GAME_FIELD_H

@@ -3,6 +3,8 @@
 
 #include "sources/game/objects/object.h"
 
+namespace game {
+
 using sharedMedicines = std::shared_ptr<class Medicines>;
 
 
@@ -23,5 +25,7 @@ public:
     bool getReusable() const override;
 }; // class Mediciness
 
+
+};
 
 #endif // SOURCES_GAME_OBJECTS_MEDICINES_MEDICINES_H

@@ -3,6 +3,8 @@
 
 #include "sources/game/interactions/interactionstrategy.h"
 
+namespace game {
+
 using sharedInteractionUse = std::shared_ptr<class InteractionUse>;
 
 
@@ -12,5 +14,7 @@ public:
     InteractionType getType() const override;
 }; // class InteractionUse
 
+
+};
 
 #endif // SOURCES_GAME_INTERACTIONS_INTERACTION_USE_H

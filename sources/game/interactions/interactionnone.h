@@ -3,6 +3,8 @@
 
 #include "sources/game/interactions/interactionstrategy.h"
 
+namespace game {
+
 using sharedInteractionNone = std::shared_ptr<class InteractionNone>;
 
 
@@ -12,5 +14,7 @@ public:
     InteractionType getType() const override;
 }; // class InteractionNone
 
+
+};
 
 #endif // SOURCES_GAME_INTERACTIONS_INTERACTION_NONE_H

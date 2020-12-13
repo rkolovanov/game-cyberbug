@@ -3,11 +3,13 @@
 #include "sources/game/field.h"
 #include "sources/common/exception.h"
 
+namespace game {
 
-uniqueField Field::instance_ = nullptr;
+
+game::uniqueField game::Field::instance_ = nullptr;
 
 
-Field::Field(const Size2D& size): size_(size) {
+game::Field::Field(const Size2D& size): size_(size) {
     cells_ = std::make_shared<CellTable>(size_.y);
 
     for (size_t y = 0; y < size_.y; y++) {
@@ -21,7 +23,7 @@ Field::Field(const Size2D& size): size_(size) {
 }
 
 
-Field::Field(const Field& other) {
+game::Field::Field(const Field& other) {
     size_ = other.size_;
     cells_.reset();
 
@@ -42,13 +44,13 @@ Field::Field(const Field& other) {
 }
 
 
-Field::Field(Field&& other) {
+game::Field::Field(Field&& other) {
     size_ = std::move(other.size_);
     cells_ = std::move(other.cells_);
 }
 
 
-Field& Field::operator=(const Field& other) {
+game::Field& game::Field::operator=(const Field& other) {
     if (this != &other) {
         return *this;
     }
@@ -75,7 +77,7 @@ Field& Field::operator=(const Field& other) {
 }
 
 
-Field& Field::operator=(Field&& other) {
+game::Field& game::Field::operator=(Field&& other) {
     if (this != &other) {
         size_ = std::move(other.size_);
         cells_ = std::move(other.cells_);
@@ -84,7 +86,7 @@ Field& Field::operator=(Field&& other) {
 }
 
 
-Field& Field::initInstance(const Size2D& size) {
+game::Field& game::Field::initInstance(const Size2D& size) {
     if (!isCreated()) {
         // Конструктор приватный, поэтому std::make_unique применить не удается
         instance_ = uniqueField(new Field(size));
@@ -93,7 +95,7 @@ Field& Field::initInstance(const Size2D& size) {
 }
 
 
-Field& Field::getInstance() {
+game::Field& game::Field::getInstance() {
     if (!isCreated()) {
         throw Exception("Instance of class 'Field' is not created.");
     }
@@ -101,17 +103,17 @@ Field& Field::getInstance() {
 }
 
 
-void Field::deleteInstance() {
+void game::Field::deleteInstance() {
     Field::instance_.reset();
 }
 
 
-bool Field::isCreated() {
+bool game::Field::isCreated() {
     return Field::instance_ != nullptr;
 }
 
 
-Cell& Field::getCell(const Position2D& position) {
+game::Cell& game::Field::getCell(const Position2D& position) {
     if (position.x >= size_.x || position.y >= size_.y) {
         throw Exception("Method Field::getCell(): Out of field range.");
     }
@@ -119,7 +121,7 @@ Cell& Field::getCell(const Position2D& position) {
 }
 
 
-const Cell& Field::getCell(const Position2D& position) const {
+const game::Cell& game::Field::getCell(const Position2D& position) const {
     if (position.x >= size_.x || position.y >= size_.y) {
         throw Exception("Method Field::getCell(): Out of field range.");
     }
@@ -127,42 +129,42 @@ const Cell& Field::getCell(const Position2D& position) const {
 }
 
 
-Size2D Field::getSize() const {
+Size2D game::Field::getSize() const {
     return size_;
 }
 
 
-bool Field::isCorrectPosition(Position2D position) const {
+bool game::Field::isCorrectPosition(Position2D position) const {
     return position.x < getSize().x && position.y < getSize().y;
 }
 
 
-Field::FieldIterator Field::begin() {
+game::Field::FieldIterator game::Field::begin() {
     return FieldIterator(Position2D(0, 0));
 }
 
 
-Field::FieldIterator Field::end() {
+game::Field::FieldIterator game::Field::end() {
     return FieldIterator(Position2D(0, getSize().y));
 }
 
 
-const Field::ConstFieldIterator Field::begin() const {
+const game::Field::ConstFieldIterator game::Field::begin() const {
     return ConstFieldIterator(Position2D(0, 0));
 }
 
 
-const Field::ConstFieldIterator Field::end() const {
+const game::Field::ConstFieldIterator game::Field::end() const {
     return ConstFieldIterator(Position2D(0, getSize().y));
 }
 
 
-FieldMemento Field::save() const {
+game::FieldMemento game::Field::save() const {
     return FieldMemento(cells_, size_);
 }
 
 
-void Field::restore(FieldMemento& snapshot) {
+void game::Field::restore(FieldMemento& snapshot) {
     sharedCellTable cells = snapshot.getCellTable();
     size_ = snapshot.getSize();
     cells_.reset();
@@ -184,20 +186,20 @@ void Field::restore(FieldMemento& snapshot) {
 }
 
 
-Field::FieldIterator::FieldIterator(const Position2D& position): position_(position) {}
+game::Field::FieldIterator::FieldIterator(const Position2D& position): position_(position) {}
 
 
-bool Field::FieldIterator::operator==(const FieldIterator& other) const {
+bool game::Field::FieldIterator::operator==(const FieldIterator& other) const {
     return position_ == other.position_;
 }
 
 
-bool Field::FieldIterator::operator!=(const FieldIterator& other) const {
+bool game::Field::FieldIterator::operator!=(const FieldIterator& other) const {
     return !operator==(other);
 }
 
 
-Field::FieldIterator& Field::FieldIterator::operator++() {
+game::Field::FieldIterator& game::Field::FieldIterator::operator++() {
     const Field& field = Field::getInstance();
 
     if (position_.x + 1 >= field.getSize().x) {
@@ -211,33 +213,33 @@ Field::FieldIterator& Field::FieldIterator::operator++() {
 }
 
 
-Field::FieldIterator Field::FieldIterator::operator++(int) {
+game::Field::FieldIterator game::Field::FieldIterator::operator++(int) {
     FieldIterator iterator(*this);
     operator++();
     return iterator;
 }
 
 
-Cell& Field::FieldIterator::operator*() const {
+game::Cell& game::Field::FieldIterator::operator*() const {
     Field& field = Field::getInstance();
     return field.getCell(position_);
 }
 
 
-Field::ConstFieldIterator::ConstFieldIterator(const Position2D& position): position_(position) {}
+game::Field::ConstFieldIterator::ConstFieldIterator(const Position2D& position): position_(position) {}
 
 
-bool Field::ConstFieldIterator::operator==(const Field::ConstFieldIterator& other) const {
+bool game::Field::ConstFieldIterator::operator==(const Field::ConstFieldIterator& other) const {
     return position_ == other.position_;
 }
 
 
-bool Field::ConstFieldIterator::operator!=(const Field::ConstFieldIterator& other) const {
+bool game::Field::ConstFieldIterator::operator!=(const Field::ConstFieldIterator& other) const {
     return !operator==(other);
 }
 
 
-Field::ConstFieldIterator& Field::ConstFieldIterator::operator++() {
+game::Field::ConstFieldIterator& game::Field::ConstFieldIterator::operator++() {
     const Field& field = Field::getInstance();
 
     if (position_.x + 1 >= field.getSize().x) {
@@ -251,14 +253,17 @@ Field::ConstFieldIterator& Field::ConstFieldIterator::operator++() {
 }
 
 
-Field::ConstFieldIterator Field::ConstFieldIterator::operator++(int) {
+game::Field::ConstFieldIterator game::Field::ConstFieldIterator::operator++(int) {
     ConstFieldIterator iterator(*this);
     operator++();
     return iterator;
 }
 
 
-const Cell& Field::ConstFieldIterator::operator*() const {
+const game::Cell& game::Field::ConstFieldIterator::operator*() const {
     const Field& field = Field::getInstance();
     return field.getCell(position_);
 }
+
+
+};

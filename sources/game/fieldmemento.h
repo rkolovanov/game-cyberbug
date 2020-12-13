@@ -6,6 +6,8 @@
 #include "sources/common/imemento.h"
 #include "sources/game/cell.h"
 
+namespace game {
+
 using CellRow = std::vector<Cell>;
 using CellTable = std::vector<CellRow>;
 using sharedCellTable = std::shared_ptr<CellTable>;
@@ -22,5 +24,7 @@ public:
     Size2D getSize() const;
 }; // class FieldMemento
 
+
+};
 
 #endif // SOURCES_GAME_FIELD_MEMENTO_H

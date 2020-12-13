@@ -7,12 +7,14 @@
 #include "sources/game/objects/object.h"
 #include "sources/game/field.h"
 #include "sources/logging/logginglistener.h"
-#include "sources/game/objects/creatures/enemies/enemy.h"
+#include "sources/game/creatures/enemies/enemy.h"
+
+namespace game {
 
 
 class LevelGenerator final {
 private:
-    sharedLoggingListener logger_;
+    logging::sharedLoggingListener logger_;
     Position2D entry_;
     int difficult_;
 
@@ -20,7 +22,7 @@ private:
     void generateRoomObjects(Position2D room_position, RoomType type);
 
 public:
-    LevelGenerator(const sharedLoggingListener& logger);
+    LevelGenerator(const logging::sharedLoggingListener& logger);
 
     void generate(Size2D room_count, int difficult = 0);
     void spawnEnemies(Enemies& enemies, int difficult = 0);
@@ -30,5 +32,7 @@ public:
     sharedAbstractEnemy createEnemy(const Position2D& position);
 }; // class LevelGenerator
 
+
+};
 
 #endif // SOURCES_GAME_LEVEL_GENERATOR_H

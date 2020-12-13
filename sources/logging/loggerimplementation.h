@@ -4,6 +4,8 @@
 #include <memory>
 #include <sstream>
 
+namespace logging {
+
 using sharedLoggerImplementation = std::shared_ptr<class LoggerImplementation>;
 
 
@@ -14,5 +16,7 @@ public:
     virtual void log(std::ostream& stream, const std::ostringstream& message) = 0;
 }; // class LoggerImplementation
 
+
+};
 
 #endif // SOURCES_LOGGING_LOGGER_IMPLEMENTATION_H

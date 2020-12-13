@@ -8,6 +8,8 @@
 #include "sources/gui/texture.h"
 #include "sources/game/objects/object.h"
 
+namespace game {
+
 
 class Cell final {
 private:
@@ -36,5 +38,7 @@ public:
     void changeType(CellType type);
 }; // class Cell
 
+
+};
 
 #endif // SOURCES_GAME_CELL_H

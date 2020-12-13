@@ -1,6 +1,8 @@
 #include "sources/game/playerturnstate.h"
 #include "sources/game/enemiesturnstate.h"
 
+namespace game {
+
 
 void PlayerTurnState::startTurn(GameController&) {}
 
@@ -36,6 +38,7 @@ void PlayerTurnState::executePlayerInteraction(GameController& controller) {
     controller.endTurn();
 }
 
+
 void PlayerTurnState::executePlayerAttack(GameController& controller) {
     sharedPlayer player = controller.getPlayer();
     Position2D interaction_position = player->getPosition().shift(player->getRotation());
@@ -59,3 +62,6 @@ void PlayerTurnState::executePlayerAttack(GameController& controller) {
 
     controller.endTurn();
 }
+
+
+};

@@ -1,11 +1,16 @@
 #include "sources/game/objects/medicines/medicinesfactory.h"
 
+namespace game {
 
-sharedObject MedicinesFactory::createObject() {
+
+game::sharedObject game::MedicinesFactory::createObject() {
     return std::make_shared<Medicines>(20);
 }
 
 
-sharedObject MedicinesFactory::createMedicines(int healthRecovery) {
+game::sharedObject game::MedicinesFactory::createMedicines(int healthRecovery) {
     return std::make_shared<Medicines>(healthRecovery);
 }
+
+
+};
