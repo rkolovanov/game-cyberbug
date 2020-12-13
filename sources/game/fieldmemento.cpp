@@ -26,6 +26,6 @@ sharedCellTable FieldMemento::getCellTable() {
 }
 
 
-Size2D FieldMemento::getSize() {
+Size2D FieldMemento::getSize() const {
     return size_;
 }

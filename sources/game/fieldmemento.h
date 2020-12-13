@@ -19,7 +19,7 @@ private:
 public:
     FieldMemento(const sharedCellTable& cells, Size2D size);
     sharedCellTable getCellTable();
-    Size2D getSize();
+    Size2D getSize() const;
 }; // class FieldMemento
 
 
