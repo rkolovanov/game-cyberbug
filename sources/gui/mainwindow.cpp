@@ -158,7 +158,7 @@ void gui::MainWindow::quit() {
 void gui::MainWindow::on_action_new_triggered() {
     logger_->update("Strating the game...");
     commands_[CommandType::NewGame]->execute();
-    updateScene();
+    updateScene(true);
 }
 
 

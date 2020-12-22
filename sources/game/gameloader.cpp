@@ -35,13 +35,24 @@ bool game::GameLoader::isInvalid() const {
 }
 
 
-void game::GameLoader::load(sharedPlayer& player, Enemies& enemies) {
+void game::GameLoader::load(sharedPlayer& player, Enemies& enemies, size_t& level) {
     if (isInvalid()) {
         return;
     }
 
     std::ostringstream message_stream;
     Size2D field_size;
+    int level_snapshot;
+
+    if (file_.eof()) {
+        throw Exception("Error with reading save");
+    }
+
+    file_.read((char*)(&level_snapshot), sizeof(int));
+
+    message_stream << "Reading: Level(" << level_snapshot << ")";
+    event_manager_.notify(message_stream);
+    message_stream = std::ostringstream();
 
     if (file_.eof()) {
         throw Exception("Error with reading save");
@@ -208,6 +219,7 @@ void game::GameLoader::load(sharedPlayer& player, Enemies& enemies) {
         enemies_snapshot.push_back(enemy);
     }
 
+    level = level_snapshot;
     Field::getInstance().restore(field_snapshot);
     player->restore(player_snapshot);
     enemies.clear();

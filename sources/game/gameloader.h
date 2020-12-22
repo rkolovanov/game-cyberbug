@@ -24,7 +24,7 @@ public:
     ~GameLoader();
 
     bool isInvalid() const;
-    void load(sharedPlayer& player, Enemies& enemies);
+    void load(sharedPlayer& player, Enemies& enemies, size_t& level);
 }; // class GameLoader
 
 

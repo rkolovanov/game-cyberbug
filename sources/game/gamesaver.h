@@ -23,7 +23,7 @@ public:
     ~GameSaver();
 
     bool isInvalid() const;
-    void save(const sharedPlayer& player, const Enemies& enemies);
+    void save(const sharedPlayer& player, const Enemies& enemies, size_t level);
 }; // class GameSaver
 
 

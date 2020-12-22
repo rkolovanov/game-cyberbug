@@ -41,7 +41,7 @@ bool game::GameSaver::isInvalid() const {
 }
 
 
-void game::GameSaver::save(const sharedPlayer& player, const Enemies& enemies) {
+void game::GameSaver::save(const sharedPlayer& player, const Enemies& enemies, size_t level) {
     if (isInvalid()) {
         return;
     }
@@ -50,6 +50,12 @@ void game::GameSaver::save(const sharedPlayer& player, const Enemies& enemies) {
     FieldMemento field_snapshot = Field::getInstance().save();
     sharedCellTable cells = field_snapshot.getCellTable();
     Size2D size = field_snapshot.getSize();
+
+    message_stream << "Writing: Level(" << level << ")";
+    event_manager_.notify(message_stream);
+    message_stream = std::ostringstream();
+
+    file_.write((char*)(&level), sizeof(int));
 
     message_stream << "Writing: Size2D" << size << " of class Field";
     event_manager_.notify(message_stream);

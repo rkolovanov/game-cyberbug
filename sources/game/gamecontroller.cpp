@@ -24,7 +24,7 @@ void game::GameController::newGame() {
     player_->setProtection(0);
     player_->getEventManager().subscribe(logger_);
     player_dead_ = false;
-    level_ = 1;
+    level_ = 0;
     createLevel();
 }
 
@@ -151,7 +151,7 @@ game::GameController::~GameController() {
 void game::GameController::saveGame(const std::string& path) {
     GameSaver saver(path, logger_);
     try {
-        saver.save(player_, enemies_);
+        saver.save(player_, enemies_, level_);
     } catch (Exception& error) {
         logger_->update(error.getMessage());
     } catch (...) {
@@ -163,7 +163,7 @@ void game::GameController::saveGame(const std::string& path) {
 void game::GameController::loadGame(const std::string& path) {
     GameLoader loader(path, logger_);
     try {
-        loader.load(player_, enemies_);
+        loader.load(player_, enemies_, level_);
         player_dead_ = player_->getHealth() <= 0;
     } catch (Exception& error) {
         logger_->update(error.getMessage());
