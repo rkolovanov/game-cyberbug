@@ -2,7 +2,7 @@
 
 #include "sources/game/field.h"
 #include "sources/game/gamesaver.h"
-#include "sources/common/exception.h"
+#include "sources/application/exception.h"
 #include "sources/game/objects/armor/armor.h"
 #include "sources/game/objects/weapon/weapon.h"
 #include "sources/game/objects/medicines/medicines.h"
@@ -17,7 +17,7 @@
 namespace game {
 
 
-game::GameSaver::GameSaver(const std::string& path, const sharedEventListener& logging_listener): error_(false) {
+game::GameSaver::GameSaver(const std::string& path, const application::sharedEventListener& logging_listener): error_(false) {
     file_.open(path, std::ios::binary);
     event_manager_.subscribe(logging_listener);
 

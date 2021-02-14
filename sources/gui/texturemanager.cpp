@@ -64,7 +64,7 @@ QImage& gui::TextureManager::getTextureImage(Texture texture) {
 
 Texture gui::TextureManager::getCellTexture(const game::Cell& cell) {
     const game::Field& field = game::Field::getInstance();
-    Position2D neighborCellsPosition[4];
+    game::Position2D neighborCellsPosition[4];
     int result = 0;
 
     neighborCellsPosition[0] = cell.getPosition().shift(Direction::Right);

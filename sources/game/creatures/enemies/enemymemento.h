@@ -1,7 +1,7 @@
 #ifndef SOURCES_GAME_OBJECTS_CREATURES_ENEMIES_ENEMY_MEMENTO_H
 #define SOURCES_GAME_OBJECTS_CREATURES_ENEMIES_ENEMY_MEMENTO_H
 
-#include "sources/common/imemento.h"
+#include "sources/game/imemento.h"
 #include "sources/game/creatures/creature.h"
 
 namespace game {

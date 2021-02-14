@@ -3,7 +3,7 @@
 namespace game {
 
 
-EventManager& game::Object::getEventManager() {
+application::EventManager& game::Object::getEventManager() {
     return event_manager_;
 }
 

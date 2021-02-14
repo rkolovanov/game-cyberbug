@@ -2,7 +2,7 @@
 #define SOURCES_COMMANDS_MOVE_PLAYER_COMMAND_H
 
 #include "sources/gui/commands/command.h"
-#include "sources/common/direction.h"
+#include "sources/game/direction.h"
 
 namespace gui {
 

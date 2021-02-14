@@ -1,7 +1,7 @@
 #ifndef SOURCES_GAME_LEVEL_GENERATOR_H
 #define SOURCES_GAME_LEVEL_GENERATOR_H
 
-#include "sources/common/point2d.h"
+#include "sources/game/point2d.h"
 #include "sources/game/celltype.h"
 #include "sources/game/roomtype.h"
 #include "sources/game/objects/object.h"

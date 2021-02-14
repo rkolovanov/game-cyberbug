@@ -3,6 +3,8 @@
 
 #include <string>
 
+namespace application {
+
 
 class Exception final {
 private:
@@ -14,5 +16,7 @@ public:
     const std::string& getMessage() const;
 }; // class Exception
 
+
+};
 
 #endif // SOURCES_COMMON_EXCEPTION_H

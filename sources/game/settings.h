@@ -5,6 +5,8 @@
 #include <string>
 #include <fstream>
 
+namespace game {
+
 
 class Settings final {
 private:
@@ -19,5 +21,7 @@ public:
     bool isInvalid() const;
 }; // class Settings
 
+
+};
 
 #endif // SOURCES_COMMON_SETTINGS_H

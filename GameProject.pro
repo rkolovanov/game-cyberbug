@@ -5,11 +5,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 SOURCES += \
-    sources/common/eventmanager.cpp \
-    sources/common/exception.cpp \
-    sources/common/point2d.cpp \
-    sources/common/settings.cpp \
-    sources/common/time.cpp \
+    sources/application/eventmanager.cpp \
+    sources/application/exception.cpp \
+    sources/game/point2d.cpp \
+    sources/game/settings.cpp \
+    sources/application/time.cpp \
     sources/game/cell.cpp \
     sources/game/creatures/creature.cpp \
     sources/game/creatures/distanceattackbehavior.cpp \
@@ -58,16 +58,15 @@ SOURCES += \
     sources/main.cpp \
 
 HEADERS += \
-    sources/common/eventlistener.h \
-    sources/common/eventmanager.h \
-    sources/common/exception.h \
-    sources/common/imemento.h \
-    sources/common/point2d.h \
-    sources/common/settings.h \
-    sources/common/time.h \
+    sources/application/eventlistener.h \
+    sources/application/eventmanager.h \
+    sources/application/exception.h \
+    sources/game/imemento.h \
+    sources/game/point2d.h \
+    sources/game/settings.h \
+    sources/application/time.h \
     sources/game/celltype.h \
-    sources/commands/commandtype.h \
-    sources/common/direction.h \
+    sources/game/direction.h \
     sources/game/creatures/attackbehavior.h \
     sources/game/creatures/creature.h \
     sources/game/creatures/distanceattackbehavior.h \

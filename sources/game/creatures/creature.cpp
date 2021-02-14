@@ -18,7 +18,7 @@ void game::Creature::operator<=(sharedCreature& creature) {
 }
 
 
-EventManager& game::Creature::getEventManager() {
+application::EventManager& game::Creature::getEventManager() {
     return event_manager_;
 }
 

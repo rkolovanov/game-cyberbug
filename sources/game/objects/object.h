@@ -5,7 +5,7 @@
 #include <typeinfo>
 
 #include "sources/gui/texture.h"
-#include "sources/common/eventmanager.h"
+#include "sources/application/eventmanager.h"
 
 namespace game {
 
@@ -16,12 +16,12 @@ using sharedCreature = std::shared_ptr<class Creature>;
 
 class Object {
 private:
-    EventManager event_manager_;
+    application::EventManager event_manager_;
 
 public:
     virtual ~Object() = default;
 
-    EventManager& getEventManager();
+    application::EventManager& getEventManager();
     virtual sharedObject getCopy() const = 0;
     virtual const std::type_info& getClass() const = 0;
     virtual void executeInteraction(Creature& creature) = 0;

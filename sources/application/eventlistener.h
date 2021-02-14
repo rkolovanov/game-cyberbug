@@ -4,6 +4,8 @@
 #include <memory>
 #include <sstream>
 
+namespace application {
+
 using sharedEventListener = std::shared_ptr<class EventListener>;
 
 
@@ -12,5 +14,7 @@ public:
     virtual void update(const std::ostringstream& message) = 0;
 }; // class EventListener
 
+
+};
 
 #endif // SOURCES_COMMON_EVENT_LISTENER_H

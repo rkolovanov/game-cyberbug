@@ -4,7 +4,9 @@
 #include <set>
 #include <sstream>
 
-#include "sources/common/eventlistener.h"
+#include "sources/application/eventlistener.h"
+
+namespace application {
 
 
 class EventManager final {
@@ -18,5 +20,7 @@ public:
     void notify(const std::string& message) const;
 }; // class EventManager
 
+
+};
 
 #endif // SOURCES_COMMON_EVENT_MANAGER_H

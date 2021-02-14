@@ -1,4 +1,6 @@
-#include "sources/common/time.h"
+#include "sources/application/time.h"
+
+namespace application {
 
 
 Time::Time() {
@@ -15,3 +17,6 @@ std::string Time::getCurrentDateTime() {
     strftime(buffer, 20, "%d-%m-%y %H:%M:%S", &timeinfo_);
     return std::string(buffer);
 }
+
+
+};

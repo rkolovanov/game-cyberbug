@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "sources/common/point2d.h"
+#include "sources/game/point2d.h"
 #include "sources/game/celltype.h"
 #include "sources/gui/texture.h"
 #include "sources/game/objects/object.h"

@@ -12,7 +12,7 @@
 #include "sources/game/gamecontroller.h"
 #include "sources/gui/texture.h"
 #include "sources/gui/commands/commandtype.h"
-#include "sources/common/settings.h"
+#include "sources/game/settings.h"
 #include "sources/gui/commands/command.h"
 
 QT_BEGIN_NAMESPACE

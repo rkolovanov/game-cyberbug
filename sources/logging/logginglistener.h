@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "sources/common/eventlistener.h"
+#include "sources/application/eventlistener.h"
 #include "sources/logging/consolelogger.h"
 #include "sources/logging/filelogger.h"
 
@@ -12,7 +12,7 @@ namespace logging {
 using sharedLoggingListener = std::shared_ptr<class LoggingListener>;
 
 
-class LoggingListener final: public EventListener {
+class LoggingListener final: public application::EventListener {
 private:
     std::set<sharedLogger> loggers_;
 

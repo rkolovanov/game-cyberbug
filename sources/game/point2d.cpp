@@ -1,4 +1,6 @@
-#include "sources/common/point2d.h"
+#include "sources/game/point2d.h"
+
+namespace game {
 
 
 Point2D::Point2D(): x(0), y(0) {}
@@ -14,6 +16,11 @@ bool operator==(const Point2D& left, const Point2D& right) {
 
 bool operator!=(const Point2D& left, const Point2D& right) {
     return !operator==(left, right);
+}
+
+
+bool operator<(const Point2D& left, const Point2D& right) {
+    return operator!=(left, right) && (left.y <= right.y && left.x <= right.x);
 }
 
 
@@ -40,3 +47,6 @@ Point2D& Point2D::shift(Direction direction) {
     }
     return *this;
 }
+
+
+};

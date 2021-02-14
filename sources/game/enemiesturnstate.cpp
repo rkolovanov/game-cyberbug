@@ -18,6 +18,19 @@ void game::EnemiesTurnState::startTurn(GameController& controller) {
             Position2D new_position = enemy->getMovementPosition(player_position);
 
             if (enemy_position != new_position && controller.isPassablePosition(new_position)) {
+                int dx = new_position.x - enemy_position.x;
+                int dy = new_position.y - enemy_position.y;
+
+                if (dx > 0) {
+                    enemy->setRotation(Rotation::Right);
+                } else if (dy < 0) {
+                    enemy->setRotation(Rotation::Top);
+                } else if (dy > 0) {
+                    enemy->setRotation(Rotation::Bottom);
+                } else if (dx < 0) {
+                    enemy->setRotation(Rotation::Left);
+                }
+
                 enemy->setPosition(new_position);
             }
 

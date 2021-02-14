@@ -1,7 +1,7 @@
 #ifndef SOURCES_GAME_OBJECTS_CREATURE_PLAYER_PLAYER_MEMENTO_H
 #define SOURCES_GAME_OBJECTS_CREATURE_PLAYER_PLAYER_MEMENTO_H
 
-#include "sources/common/imemento.h"
+#include "sources/game/imemento.h"
 #include "sources/game/creatures/creature.h"
 #include "sources/game/interactions/interactiontype.h"
 

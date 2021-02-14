@@ -3,14 +3,14 @@
 
 #include "sources/gui/mainwindow.h"
 #include "sources/gui/texturemanager.h"
-#include "sources/common/settings.h"
-#include "sources/common/time.h"
+#include "sources/game/settings.h"
+#include "sources/application/time.h"
 #include "sources/game/gamecontroller.h"
 
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    Settings settings("./settings.txt");
+    game::Settings settings("./settings.txt");
 
     if (settings.isInvalid()) {
         std::cerr << "Cannot open settings file: ./settings.txt\n";
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     logging::sharedLoggingListener logger(new logging::LoggingListener);
     logger->addLogger(std::make_shared<logging::ConsoleLogger>(std::cout));
 
-    std::string logging_file_path = settings["logs_path"] + Time().getCurrentDateTime() + ".log";
+    std::string logging_file_path = settings["logs_path"] + application::Time().getCurrentDateTime() + ".log";
     logging::sharedFileLogger file_logger = std::make_shared<logging::FileLogger>(logging_file_path);
 
     if (file_logger->isInvalid()) {

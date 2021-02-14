@@ -4,6 +4,8 @@
 #include <ctime>
 #include <string>
 
+namespace application {
+
 
 class Time final {
 private:
@@ -16,5 +18,7 @@ public:
     std::string getCurrentDateTime();
 }; // class Time
 
+
+};
 
 #endif // SOURCES_COMMON_TIME_H

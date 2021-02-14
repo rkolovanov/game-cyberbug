@@ -1,7 +1,7 @@
 #include <utility>
 
 #include "sources/game/field.h"
-#include "sources/common/exception.h"
+#include "sources/application/exception.h"
 
 namespace game {
 
@@ -97,7 +97,7 @@ game::Field& game::Field::initInstance(const Size2D& size) {
 
 game::Field& game::Field::getInstance() {
     if (!isCreated()) {
-        throw Exception("Instance of class 'Field' is not created.");
+        throw application::Exception("Instance of class 'Field' is not created.");
     }
     return *instance_;
 }
@@ -115,7 +115,7 @@ bool game::Field::isCreated() {
 
 game::Cell& game::Field::getCell(const Position2D& position) {
     if (position.x >= size_.x || position.y >= size_.y) {
-        throw Exception("Method Field::getCell(): Out of field range.");
+        throw application::Exception("Method Field::getCell(): Out of field range.");
     }
     return cells_->at(position.y).at(position.x);
 }
@@ -123,7 +123,7 @@ game::Cell& game::Field::getCell(const Position2D& position) {
 
 const game::Cell& game::Field::getCell(const Position2D& position) const {
     if (position.x >= size_.x || position.y >= size_.y) {
-        throw Exception("Method Field::getCell(): Out of field range.");
+        throw application::Exception("Method Field::getCell(): Out of field range.");
     }
     return cells_->at(position.y).at(position.x);
 }

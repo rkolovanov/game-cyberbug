@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "sources/common/imemento.h"
+#include "sources/game/imemento.h"
 #include "sources/game/cell.h"
 
 namespace game {

@@ -1,5 +1,7 @@
-#include "sources/common/settings.h"
-#include "sources/common/exception.h"
+#include "sources/game/settings.h"
+#include "sources/application/exception.h"
+
+namespace game {
 
 
 Settings::Settings(const std::string& path) {
@@ -35,3 +37,6 @@ bool Settings::isInvalid() const {
 std::string& Settings::operator[](const std::string& key) {
     return data_[key];
 }
+
+
+};

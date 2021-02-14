@@ -1,6 +1,6 @@
 #include <QMap>
 
-#include "sources/common/exception.h"
+#include "sources/application/exception.h"
 #include "sources/game/gamecontroller.h"
 #include "sources/game/levelgenerator.h"
 #include "sources/game/creatures/enemies/enemy.h"
@@ -152,7 +152,7 @@ void game::GameController::saveGame(const std::string& path) {
     GameSaver saver(path, logger_);
     try {
         saver.save(player_, enemies_, level_);
-    } catch (Exception& error) {
+    } catch (application::Exception& error) {
         logger_->update(error.getMessage());
     } catch (...) {
         logger_->update("Unknown error!");
@@ -165,7 +165,7 @@ void game::GameController::loadGame(const std::string& path) {
     try {
         loader.load(player_, enemies_, level_);
         player_dead_ = player_->getHealth() <= 0;
-    } catch (Exception& error) {
+    } catch (application::Exception& error) {
         logger_->update(error.getMessage());
     } catch (...) {
         logger_->update("Unknown error!");

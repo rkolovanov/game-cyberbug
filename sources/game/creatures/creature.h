@@ -4,10 +4,10 @@
 #include <memory>
 
 #include "sources/game/objects/object.h"
-#include "sources/common/point2d.h"
-#include "sources/common/direction.h"
+#include "sources/game/point2d.h"
+#include "sources/game/direction.h"
 #include "sources/game/interactions/interactionstrategy.h"
-#include "sources/common/eventmanager.h"
+#include "sources/application/eventmanager.h"
 
 namespace game {
 
@@ -24,7 +24,7 @@ protected:
     int protection_;
     Position2D position_;
     Rotation rotation_ = Direction::Bottom;
-    EventManager event_manager_;
+    application::EventManager event_manager_;
     sharedInteractionStrategy object_interaction_strategy_;
 
 public:
@@ -33,7 +33,7 @@ public:
     virtual void operator<=(sharedCreature& creature) = 0;
     virtual const std::type_info& getClass() const = 0;
 
-    EventManager& getEventManager();
+    application::EventManager& getEventManager();
     Rotation getRotation() const;
     Position2D getPosition() const;
     int getHealth() const;

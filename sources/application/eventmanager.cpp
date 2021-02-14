@@ -1,6 +1,8 @@
 #include <sstream>
 
-#include "sources/common/eventmanager.h"
+#include "sources/application/eventmanager.h"
+
+namespace application {
 
 
 void EventManager::subscribe(const sharedEventListener& listener) {
@@ -25,3 +27,6 @@ void EventManager::notify(const std::ostringstream& message) const {
 void EventManager::notify(const std::string& message) const {
     notify(std::ostringstream(message));
 }
+
+
+};

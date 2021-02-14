@@ -10,7 +10,7 @@ namespace gui {
 void gui::LevelPainter::paint(sharedQPixmap& levelPixmap, const game::sharedConstPlayer& player, const game::Enemies& enemies) {
     if (game::Field::isCreated() && player != nullptr) {
         const game::Field& field = game::Field::getInstance();
-        Size2D fieldSize = field.getSize();
+        game::Size2D fieldSize = field.getSize();
 
         if (levelPixmap == nullptr ||
             static_cast<size_t>(levelPixmap->width()) != fieldSize.x * 64 ||
@@ -22,7 +22,7 @@ void gui::LevelPainter::paint(sharedQPixmap& levelPixmap, const game::sharedCons
         QPainter painter(levelPixmap.get());
 
         for (const game::Cell& cell : field) {
-            Position2D coords = cell.getPosition();
+            game::Position2D coords = cell.getPosition();
 
             painter.drawImage(coords.x * 64, coords.y * 64, TextureManager::getTextureImage(TextureManager::getCellTexture(cell)));
 
