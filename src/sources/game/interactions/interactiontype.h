@@ -1,0 +1,15 @@
+#ifndef SOURCES_GAME_INTERACTIONS_INTERACTION_TYPE_H
+#define SOURCES_GAME_INTERACTIONS_INTERACTION_TYPE_H
+
+namespace game {
+
+
+enum class InteractionType {
+    None,
+    Use
+};
+
+
+};
+
+#endif // SOURCES_GAME_INTERACTIONS_INTERACTION_TYPE_H
