@@ -1,6 +1,7 @@
 # qt-game-rpg
 
 Name: Cyberbug 2020
+
 Type: 2D Roguelike Game
 
 ## Спецификация
