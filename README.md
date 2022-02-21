@@ -1,4 +1,4 @@
-# qt-game-rpg
+# cyberbug-2020-game
 
 Name: Cyberbug 2020
 
