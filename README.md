@@ -1,8 +1,6 @@
 # cyberbug-2020-game
 
-Name: Cyberbug 2020
-
-Type: 2D Roguelike Game
+2D RPG игра Cyberbug 2020! У нас много багов и не только! Орды зомби и бесконечные этажи, попробуй выжить...
 
 ## Спецификация
 
